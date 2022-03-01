@@ -3,8 +3,8 @@ import { Props } from './app-props';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import MainPage from '../main-page';
 import SignIn from '../sign-in';
-import Favorites from '../Favorites';
-import Room from '../Room';
+import Favorites from '../favorites';
+import Room from '../room';
 import PrivateRoute from './private-route';
 
 
@@ -12,7 +12,7 @@ function App(props: Props): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
-        <Route index element={<MainPage offersCount={236} />} />
+        <Route index element={<MainPage offersCount={props.offersCount} />} />
         <Route path='/login' element={<SignIn />} />
         <Route path='/favorites' element={
           <PrivateRoute>
