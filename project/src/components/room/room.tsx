@@ -10,6 +10,7 @@ const formatRating = (rating:number)=>rating.toFixed(RATING_PRECISION);
 const computeRatingPercent = (rating:number)=>`${Math.round(rating*PER_CENT/HIGHEST_RATING)}%`;
 const formatBedrooms = (bedrooms: number) => bedrooms===1? `${bedrooms} bedroom`:`${bedrooms} bedrooms`;
 const formatAdults = (maxAdults: number)=> maxAdults===1? `Max ${maxAdults} adult`: `Max ${maxAdults} adults`;
+const formatPrice = (price:number)=> price.toFixed(0);
 
 function Room(): JSX.Element {
   const params = useParams();
@@ -18,7 +19,7 @@ function Room(): JSX.Element {
   if (typeof offer === 'undefined') {
     throw new Error();
   }
-  const {isPremium, title, rating, type, bedrooms, maxAdults} = offer;
+  const {isPremium, title, rating, type, bedrooms, maxAdults, price} = offer;
   return (
     <div className="page">
       <header className="header">
@@ -106,7 +107,7 @@ function Room(): JSX.Element {
                 </li>
               </ul>
               <div className="property__price">
-                <b className="property__price-value">&euro;120</b>
+                <b className="property__price-value">&euro;{formatPrice(price)}</b>
                 <span className="property__price-text">&nbsp;night</span>
               </div>
               <div className="property__inside">
