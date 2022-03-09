@@ -10,7 +10,7 @@ function Room(): JSX.Element {
   if (typeof offer === 'undefined') {
     throw new Error();
   }
-  const {isPremium} = offer;
+  const {isPremium, title} = offer;
   return (
     <div className="page">
       <header className="header">
@@ -70,7 +70,7 @@ function Room(): JSX.Element {
               <PropertyMark isPremium={isPremium} />
               <div className="property__name-wrapper">
                 <h1 className="property__name">
-                  Beautiful &amp; luxurious studio at great location
+                  {title}
                 </h1>
                 <button className="property__bookmark-button button" type="button">
                   <svg className="property__bookmark-icon" width="31" height="33">
