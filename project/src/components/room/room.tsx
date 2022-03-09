@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
-import { offers } from '../mocks/offers';
-import CommentsForm from './comments-form';
+import { offers } from '../../mocks/offers';
+import CommentsForm from '../comments-form';
 
 function Room(): JSX.Element {
   const params = useParams();
