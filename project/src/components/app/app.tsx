@@ -9,14 +9,15 @@ import PrivateRoute from './private-route';
 
 
 function App(props: Props): JSX.Element {
+  const { offers } = props;
   return (
     <BrowserRouter>
       <Routes>
-        <Route index element={<MainPage offersCount={props.offersCount} />} />
+        <Route index element={<MainPage offers={offers} />} />
         <Route path='/login' element={<SignIn />} />
         <Route path='/favorites' element={
           <PrivateRoute>
-            <Favorites />
+            <Favorites offers={offers.filter((offer) => offer.isFavorite === true)} />
           </PrivateRoute>
         }
         />

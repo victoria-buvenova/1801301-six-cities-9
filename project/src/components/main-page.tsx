@@ -1,8 +1,9 @@
 import { Props } from './app/app-props';
-import OfferCard from './offer-card';
+import OffersList from './offers-list';
 
 
 function MainPage(props: Props): JSX.Element {
+  const { offers } = props;
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -75,7 +76,7 @@ function MainPage(props: Props): JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{props.offersCount} places to stay in Amsterdam</b>
+              <b className="places__found">{props.offers.length} places to stay in Amsterdam</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -91,13 +92,7 @@ function MainPage(props: Props): JSX.Element {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <div className="cities__places-list places__list tabs__content">
-                <OfferCard />
-                <OfferCard />
-                <OfferCard />
-                <OfferCard />
-                <OfferCard />
-              </div>
+              <OffersList offers={offers} />
             </section>
             <div className="cities__right-section">
               <section className="cities__map map"></section>
