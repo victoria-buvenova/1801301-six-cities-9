@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { offers } from '../../mocks/offers';
 import CommentsForm from '../comments-form';
+import { PropertyInside } from './property-inside';
 import { PropertyMark } from './property-mark';
 
 const RATING_PRECISION = 1;
@@ -20,7 +21,7 @@ function Room(): JSX.Element {
   if (typeof offer === 'undefined') {
     throw new Error();
   }
-  const { isPremium, title, rating, type, bedrooms, maxAdults, price } = offer;
+  const { isPremium, title, rating, type, bedrooms, maxAdults, price, goods } = offer;
   return (
     <div className="page">
       <header className="header">
@@ -111,41 +112,7 @@ function Room(): JSX.Element {
                 <b className="property__price-value">&euro;{formatPrice(price)}</b>
                 <span className="property__price-text">&nbsp;night</span>
               </div>
-              <div className="property__inside">
-                <h2 className="property__inside-title">What&apos;s inside</h2>
-                <ul className="property__inside-list">
-                  <li className="property__inside-item">
-                    Wi-Fi
-                  </li>
-                  <li className="property__inside-item">
-                    Washing machine
-                  </li>
-                  <li className="property__inside-item">
-                    Towels
-                  </li>
-                  <li className="property__inside-item">
-                    Heating
-                  </li>
-                  <li className="property__inside-item">
-                    Coffee machine
-                  </li>
-                  <li className="property__inside-item">
-                    Baby seat
-                  </li>
-                  <li className="property__inside-item">
-                    Kitchen
-                  </li>
-                  <li className="property__inside-item">
-                    Dishwasher
-                  </li>
-                  <li className="property__inside-item">
-                    Cabel TV
-                  </li>
-                  <li className="property__inside-item">
-                    Fridge
-                  </li>
-                </ul>
-              </div>
+              <PropertyInside goods={goods} />
               <div className="property__host">
                 <h2 className="property__host-title">Meet the host</h2>
                 <div className="property__host-user user">
