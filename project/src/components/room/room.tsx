@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { offers } from '../../mocks/offers';
 import CommentsForm from '../comments-form';
+import { PropertyMark } from './property-mark';
 
 function Room(): JSX.Element {
   const params = useParams();
@@ -9,6 +10,7 @@ function Room(): JSX.Element {
   if (typeof offer === 'undefined') {
     throw new Error();
   }
+  const { isPremium } = offer;
   return (
     <div className="page">
       <header className="header">
@@ -65,9 +67,7 @@ function Room(): JSX.Element {
           </div>
           <div className="property__container container">
             <div className="property__wrapper">
-              <div className="property__mark">
-                <span>Premium</span>
-              </div>
+              <PropertyMark isPremium={isPremium} />
               <div className="property__name-wrapper">
                 <h1 className="property__name">
                   Beautiful &amp; luxurious studio at great location
