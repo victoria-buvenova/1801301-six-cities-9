@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Props } from './app/app-props';
+import { Props } from '../app/app-props';
 
 function Favorites(props: Props): JSX.Element {
   const { offers } = props;
