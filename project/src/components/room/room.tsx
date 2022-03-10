@@ -9,6 +9,7 @@ const HIGHEST_RATING = 5;
 
 const formatRating = (rating: number) => rating.toFixed(RATING_PRECISION);
 const computeRatingPercent = (rating: number) => `${Math.round(rating * PER_CENT / HIGHEST_RATING)}%`;
+const formatBedrooms = (bedrooms: number) => bedrooms === 1 ? `${bedrooms} bedroom` : `${bedrooms} bedrooms`;
 
 function Room(): JSX.Element {
   const params = useParams();
@@ -17,7 +18,7 @@ function Room(): JSX.Element {
   if (typeof offer === 'undefined') {
     throw new Error();
   }
-  const { isPremium, title, rating } = offer;
+  const { isPremium, title, rating, type, bedrooms } = offer;
   return (
     <div className="page">
       <header className="header">
@@ -95,10 +96,10 @@ function Room(): JSX.Element {
               </div>
               <ul className="property__features">
                 <li className="property__feature property__feature--entire">
-                  Apartment
+                  {type}
                 </li>
                 <li className="property__feature property__feature--bedrooms">
-                  3 Bedrooms
+                  {formatBedrooms(bedrooms)}
                 </li>
                 <li className="property__feature property__feature--adults">
                   Max 4 adults
