@@ -1,16 +1,13 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { offers } from '../mocks/offers';
 
-type OfferCardProps = { id: number }
+type OfferCardProps = { id: number, onActivate: () => void; onDeactivate: () => void; }
 
 const formatPremium = (flag: boolean) => flag ? 'Premium' : '';
 const formatFavorite = (flag: boolean) => flag ? 'place-card__bookmark-button--active' : '';
 
 function OfferCard(props: OfferCardProps): JSX.Element {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [activeCard, setActiveCard] = useState(null);
-  const { id } = props;
+  const { id, onActivate, onDeactivate } = props;
   const offer = offers.find((element) => element.id === id);
   if (typeof offer === 'undefined') {
     throw new Error();
@@ -18,7 +15,7 @@ function OfferCard(props: OfferCardProps): JSX.Element {
 
   const { isFavorite, isPremium, previewImage, price, rating, title, type } = offer;
   return (
-    <article className="cities__place-card place-card">
+    <article className="cities__place-card place-card" onMouseEnter={onActivate} onMouseLeave={onDeactivate}>
       {isPremium &&
         <div className="place-card__mark">
           <span>{formatPremium(isPremium)}</span>
