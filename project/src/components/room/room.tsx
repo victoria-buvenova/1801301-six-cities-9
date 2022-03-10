@@ -3,6 +3,13 @@ import { offers } from '../../mocks/offers';
 import CommentsForm from '../comments-form';
 import { PropertyMark } from './property-mark';
 
+const RATING_PRECISION = 1;
+const PER_CENT = 100;
+const HIGHEST_RATING = 5;
+
+const formatRating = (rating: number) => rating.toFixed(RATING_PRECISION);
+const computeRatingPercent = (rating: number) => `${Math.round(rating * PER_CENT / HIGHEST_RATING)}%`;
+
 function Room(): JSX.Element {
   const params = useParams();
   const currentId = params.id;
@@ -10,7 +17,7 @@ function Room(): JSX.Element {
   if (typeof offer === 'undefined') {
     throw new Error();
   }
-  const { isPremium, title } = offer;
+  const { isPremium, title, rating } = offer;
   return (
     <div className="page">
       <header className="header">
@@ -81,10 +88,10 @@ function Room(): JSX.Element {
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
-                  <span style={{ width: '80%' }}></span>
+                  <span style={{ width: computeRatingPercent(rating) }}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
-                <span className="property__rating-value rating__value">4.8</span>
+                <span className="property__rating-value rating__value">{formatRating(rating)}</span>
               </div>
               <ul className="property__features">
                 <li className="property__feature property__feature--entire">
