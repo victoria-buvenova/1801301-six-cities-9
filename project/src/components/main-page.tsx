@@ -1,9 +1,12 @@
+import { useState } from 'react';
 import { Props } from './app/app-props';
+import Map from './map';
 import OffersList from './offers-list';
 
 
 function MainPage(props: Props): JSX.Element {
   const { offers } = props;
+  const [active, setActive] = useState(undefined as number | undefined);
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -92,10 +95,23 @@ function MainPage(props: Props): JSX.Element {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <OffersList offers={offers} />
+              <OffersList offers={offers}
+                active={active}
+                setActive={setActive}
+              />
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <section className="cities__map map">
+                < Map city={offers[0].city} points={offers.map((offer) => (
+                  {
+                    latitude: offer.location.latitude,
+                    longitude: offer.location.longitude,
+                    zoom: offer.location.zoom,
+                    isActive: offer.id === active,
+                  }
+                ))}
+                />
+              </section>
             </div>
           </div>
         </div>
