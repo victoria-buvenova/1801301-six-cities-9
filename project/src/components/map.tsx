@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-
+import 'leaflet/dist/leaflet.css';
 import leaflet, { Marker } from 'leaflet';
 import { City, Location } from './app/app-props';
 import useMap from '../hooks/useMap';
@@ -47,7 +47,7 @@ function Map(props: MapProps) {
   }, [currentCustomIcon, defaultCustomIcon, map, points]);
 
   return (
-    <div style={{ height: '500px' }} ref={mapRef}>
+    <div style={{ height: '100%' }} ref={mapRef}>
     </div>
   );
 }
