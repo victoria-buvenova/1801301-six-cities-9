@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import { offers } from '../../mocks/offers';
 import { reviews } from '../../mocks/reviews';
 import CommentsForm from '../comments-form';
+import Map from '../map';
 import ReviewsList from '../reviews/reviews-list';
 import { PropertyInside } from './property-inside';
 import { PropertyMark } from './property-mark';
@@ -138,13 +139,22 @@ function Room(): JSX.Element {
                 </div>
               </div>
               <section className="property__reviews reviews">
-                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">1</span></h2>
+                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
                 <ReviewsList reviews={reviews} />
                 <CommentsForm />
               </section>
             </div>
           </div>
-          <section className="property__map map"></section>
+          <section className="property__map map">
+            < Map city={offers[0].city} points={offers.slice(0, 3).map((point) => (
+              {
+                latitude: point.location.latitude,
+                longitude: point.location.longitude,
+                zoom: point.location.zoom,
+              }
+            ))}
+            />
+          </section>
         </section>
         <div className="container">
           <section className="near-places places">

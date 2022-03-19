@@ -4,7 +4,7 @@ import leaflet, { Marker } from 'leaflet';
 import { City, Location } from './app/app-props';
 import useMap from '../hooks/useMap';
 
-type PointLocation = Location & { isActive: boolean }
+type PointLocation = Location & { isActive?: boolean }
 type MapProps = { city: City, points: PointLocation[] }
 
 const URL_MARKER_DEFAULT = 'img/pin.svg';
