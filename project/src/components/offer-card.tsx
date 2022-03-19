@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { offers } from '../mocks/offers';
 
-type OfferCardProps = { id: number, onActivate: () => void; onDeactivate: () => void; }
+type OfferCardProps = { cardClassName: string, id: number, onActivate: () => void; onDeactivate: () => void; }
 
 const formatPremium = (flag: boolean) => flag ? 'Premium' : '';
 const formatFavorite = (flag: boolean) => flag ? 'place-card__bookmark-button--active' : '';
@@ -15,12 +15,12 @@ function OfferCard(props: OfferCardProps): JSX.Element {
 
   const { isFavorite, isPremium, previewImage, price, rating, title, type } = offer;
   return (
-    <article className="cities__place-card place-card" onMouseEnter={onActivate} onMouseLeave={onDeactivate}>
+    <article className={`${props.cardClassName} place-card`} onMouseEnter={onActivate} onMouseLeave={onDeactivate}>
       {isPremium &&
         <div className="place-card__mark">
           <span>{formatPremium(isPremium)}</span>
         </div>}
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      <div className={`${props.cardClassName}__image-wrapper place-card__image-wrapper`}>
         <a href="#work-in-progress">
           <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place" />
         </a>

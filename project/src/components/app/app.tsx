@@ -6,14 +6,16 @@ import SignIn from '../sign-in';
 import Favorites from '../favorites/favorites';
 import Room from '../room/room';
 import PrivateRoute from './private-route';
+import { useState } from 'react';
 
 
 function App(props: Props): JSX.Element {
   const { offers } = props;
+  const [active, setActive] = useState(undefined as number | undefined);
   return (
     <BrowserRouter>
       <Routes>
-        <Route index element={<MainPage offers={offers} />} />
+        <Route index element={<MainPage offers={offers} setActive={setActive} active={active} />} />
         <Route path='/login' element={<SignIn />} />
         <Route path='/favorites' element={
           <PrivateRoute>
@@ -21,7 +23,7 @@ function App(props: Props): JSX.Element {
           </PrivateRoute>
         }
         />
-        <Route path='/offer/:id' element={<Room />} />
+        <Route path='/offer/:id' element={<Room setActive={setActive} active={active} />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
     </BrowserRouter>
