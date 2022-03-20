@@ -42,4 +42,16 @@ export type OffersListProps = {
   offers: Offer[];
   active: number | undefined;
   setActive: (active: number | undefined) => void;
-}
+};
+
+export type Review = {
+  comment: string,
+  date: Date,
+  id: number,
+  rating: number,
+  user: Host
+};
+
+export type ReviewsListProps = {
+  reviews: Review[];
+};
