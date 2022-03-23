@@ -1,7 +1,12 @@
 import { Link } from 'react-router-dom';
-import { offers } from '../mocks/offers';
+import { offers } from '../../mocks/offers';
 
-type OfferCardProps = { cardClassName: string, id: number, onActivate: () => void; onDeactivate: () => void; }
+type OfferCardProps = {
+  id: number,
+  cardClassName: string,
+  onActivate: () => void;
+  onDeactivate: () => void;
+}
 
 const formatPremium = (flag: boolean) => flag ? 'Premium' : '';
 const formatFavorite = (flag: boolean) => flag ? 'place-card__bookmark-button--active' : '';

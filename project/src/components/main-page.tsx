@@ -1,6 +1,6 @@
 import { Props } from './app/app-props';
-import Map from './map';
-import OffersList from './offers-list';
+import Map from './map/map';
+import OffersList from './offers/offers-list';
 
 type MainPageProps = Props & { setActive: (value: number | undefined) => void, active: number | undefined }
 
