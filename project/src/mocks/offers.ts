@@ -1,3 +1,5 @@
+export const CITIES_LIST = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
+
 export const offers = [
   {
     'bedrooms': 3,
