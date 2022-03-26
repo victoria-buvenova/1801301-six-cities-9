@@ -1,3 +1,3 @@
 import { State } from '../store/reducer';
 
-export const getCurrentCity = (state: State) => state.city;
+export const getCurrentCity = (state: State) => state.selectedCityName;
