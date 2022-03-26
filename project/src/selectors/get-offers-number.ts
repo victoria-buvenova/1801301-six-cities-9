@@ -1,3 +1,3 @@
-import { Offer } from '../components/app/app-props';
+import { State } from '../store/reducer';
 
-export const getOffersNumber = (offers: Offer[]) => offers.length;
+export const getOffersNumber = (state: State) => state.offers.length;

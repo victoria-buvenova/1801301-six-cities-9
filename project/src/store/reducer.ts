@@ -8,7 +8,7 @@ export interface State {
   offers: Offer[]
 }
 
-export const initialState = {
+export const initialState: State = {
   city: 'Paris',
   offers: offers,
 };
