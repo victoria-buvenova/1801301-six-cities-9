@@ -1,17 +1,19 @@
 import { NotFound } from '../not-found';
-import { Props } from './app-props';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import MainPage from '../main-page';
+import MainPage from '../main-page/main-page';
 import SignIn from '../sign-in';
 import Favorites from '../favorites/favorites';
 import Room from '../room/room';
 import PrivateRoute from './private-route';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { getOffersByCity } from '../../selectors/get-offers-by-city';
 
 
-function App(props: Props): JSX.Element {
-  const { offers } = props;
+function App(): JSX.Element {
   const [active, setActive] = useState(undefined as number | undefined);
+  const offers = useSelector(getOffersByCity);
+
   return (
     <BrowserRouter>
       <Routes>

@@ -1,4 +1,4 @@
-import { OffersListProps } from './app/app-props';
+import { OffersListProps } from '../app/app-props';
 import OfferCard from './offer-card';
 
 type OffersListExtendedProps = OffersListProps & { className: string, cardClassName: string }

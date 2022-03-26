@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react';
 import 'leaflet/dist/leaflet.css';
 import leaflet, { Marker } from 'leaflet';
-import { City, Location } from './app/app-props';
-import useMap from '../hooks/useMap';
+import { City, Location } from '../app/app-props';
+import { useMap } from '../../hooks/useMap';
 
 type PointLocation = Location & { isActive?: boolean }
 type MapProps = { city: City, points: PointLocation[] }
