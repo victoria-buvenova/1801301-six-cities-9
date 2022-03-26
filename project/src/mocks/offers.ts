@@ -5,11 +5,11 @@ export const offers = [
     'bedrooms': 3,
     'city': {
       'location': {
-        'latitude': 52.370216,
-        'longitude': 4.895168,
+        'latitude': 48.853410,
+        'longitude': 2.348800,
         'zoom': 10,
       },
-      'name': 'Amsterdam',
+      'name': 'Paris',
     },
     'description': 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
     'goods': [
@@ -28,8 +28,8 @@ export const offers = [
     'isFavorite': false,
     'isPremium': false,
     'location': {
-      'latitude': 52.3909553943508,
-      'longitude': 4.85309666406198,
+      'latitude': 48.86016526974232,
+      'longitude': 2.3577663989411124,
       'zoom': 8,
     },
     'maxAdults': 4,

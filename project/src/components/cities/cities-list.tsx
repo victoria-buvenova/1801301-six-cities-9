@@ -6,8 +6,8 @@ function CitiesList(props: CitiesListProps) {
   const { citiesList } = props;
   return (
     <ul className="locations__list tabs__list">
-      {citiesList.map((city) => (
-        <City city={city} key={city} />
+      {citiesList.map((cityName) => (
+        <City cityName={cityName} key={cityName} />
       ))}
     </ul>
   );

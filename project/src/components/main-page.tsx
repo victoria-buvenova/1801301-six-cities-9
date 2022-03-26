@@ -1,4 +1,6 @@
+import { useSelector } from 'react-redux';
 import { CITIES_LIST } from '../mocks/offers';
+import { getCurrentCity } from '../selectors/get-current-city';
 import { Props } from './app/app-props';
 import CitiesList from './cities/cities-list';
 import Map from './map/map';
@@ -8,6 +10,8 @@ type MainPageProps = Props & { setActive: (value: number | undefined) => void, a
 
 function MainPage(props: MainPageProps): JSX.Element {
   const { offers, active, setActive } = props;
+  const currentCity = useSelector(getCurrentCity);
+
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -49,7 +53,7 @@ function MainPage(props: MainPageProps): JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{props.offers.length} places to stay in Amsterdam</b>
+              <b className="places__found">{`${props.offers.length} places to stay in ${currentCity}`}</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
