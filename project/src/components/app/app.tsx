@@ -7,12 +7,12 @@ import Room from '../room/room';
 import PrivateRoute from './private-route';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { getOffersByCity } from '../../selectors/get-offers-by-city';
+import { getSortedOffers } from '../../selectors/get-sorted-offers';
 
 
 function App(): JSX.Element {
   const [active, setActive] = useState(undefined as number | undefined);
-  const offers = useSelector(getOffersByCity);
+  const offers = useSelector(getSortedOffers);
 
   return (
     <BrowserRouter>
