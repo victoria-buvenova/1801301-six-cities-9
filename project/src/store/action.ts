@@ -1,4 +1,6 @@
-import { createAction } from '@reduxjs/toolkit';
+import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
+import { axiosInstance, store } from '.';
+import { Offer } from '../components/app/app-props';
 
 export const Action = {
   CITY_CHANGE: 'CITY_CHANGE',
@@ -18,3 +20,11 @@ export const offersListFillAction = createAction(Action.OFFERS_LIST_FILL, (value
 export const sortByChangeAction = createAction(Action.SORT_BY_CHANGE_ACTION, (value) => ({
   payload: value,
 }));
+
+export const fetchData = createAsyncThunk(
+  '/hotels',
+  async () => {
+    const { data } = await axiosInstance.get<Offer>('/hotels');
+    store.dispatch(offersListFillAction(data));
+  },
+);
