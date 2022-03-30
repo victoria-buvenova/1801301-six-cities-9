@@ -1,7 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { offers } from '../../mocks/offers';
-import { offersNearby } from '../../mocks/offers-nearby';
-import { reviews } from '../../mocks/reviews';
+import { Offer, Review } from '../app/app-props';
 import CommentsForm from '../comments-form';
 import Map from '../map/map';
 import OffersList from '../offers/offers-list';
@@ -13,7 +11,12 @@ const RATING_PRECISION = 1;
 const PER_CENT = 100;
 const HIGHEST_RATING = 5;
 
-type RoomProps = { setActive: (value: number | undefined) => void, active: number | undefined }
+type RoomProps = {
+  setActive: (value: number | undefined) => void,
+  active: number | undefined,
+  offers: Offer[],
+  reviews: Review[]
+}
 
 const formatRating = (rating: number) => rating.toFixed(RATING_PRECISION);
 const computeRatingPercent = (rating: number) => `${Math.round(rating * PER_CENT / HIGHEST_RATING)}%`;
@@ -22,7 +25,7 @@ const formatAdults = (maxAdults: number) => maxAdults === 1 ? `Max ${maxAdults} 
 const formatPrice = (price: number) => price.toFixed(0);
 
 function Room(props: RoomProps): JSX.Element {
-  const { active, setActive } = props;
+  const { active, setActive, offers, reviews } = props;
   const params = useParams();
   const currentId = params.id;
   const offer = offers.find((element) => element.id === Number(currentId));
@@ -151,7 +154,7 @@ function Room(props: RoomProps): JSX.Element {
             </div>
           </div>
           <section className="property__map map">
-            < Map city={offers[0].city} points={offersNearby.map((offerNearby) => (
+            < Map city={offers[0].city} points={offers.map((offerNearby) => (
               {
                 latitude: offerNearby.location.latitude,
                 longitude: offerNearby.location.longitude,
@@ -168,7 +171,7 @@ function Room(props: RoomProps): JSX.Element {
             <OffersList
               className='near-places__list'
               cardClassName='near-places__card'
-              offers={offersNearby}
+              offers={offers}
               active={active}
               setActive={setActive}
             />

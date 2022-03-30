@@ -1,18 +1,19 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { Offer } from '../components/app/app-props';
-import { offers } from '../mocks/offers';
+import { Offer, Review } from '../components/app/app-props';
 import { cityChangeAction, offersListFillAction, sortByChangeAction } from './action';
 
 export interface State {
   selectedCityName: string,
   offers: Offer[],
-  sortBy: string
+  sortBy: string,
+  reviews: Review[]
 }
 
 export const initialState: State = {
   selectedCityName: 'Paris',
-  offers: offers,
+  offers: [],
   sortBy: 'Popular',
+  reviews: [],
 };
 
 

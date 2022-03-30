@@ -8,12 +8,13 @@ import PrivateRoute from './private-route';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getSortedOffers } from '../../selectors/get-sorted-offers';
+import { getReviews } from '../../selectors/get-reviews';
 
 
 function App(): JSX.Element {
   const [active, setActive] = useState(undefined as number | undefined);
   const offers = useSelector(getSortedOffers);
-
+  const reviews = useSelector(getReviews);
   return (
     <BrowserRouter>
       <Routes>
@@ -25,7 +26,7 @@ function App(): JSX.Element {
           </PrivateRoute>
         }
         />
-        <Route path='/offer/:id' element={<Room setActive={setActive} active={active} />} />
+        <Route path='/offer/:id' element={<Room offers={offers} reviews={reviews} setActive={setActive} active={active} />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
     </BrowserRouter>

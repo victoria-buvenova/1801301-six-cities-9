@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { CITIES_LIST } from '../../mocks/offers';
+import { CITIES_LIST } from '../../constants';
 import { getCurrentCity } from '../../selectors/get-current-city';
 import { Props } from '../app/app-props';
 import CitiesList from '../cities/cities-list';
