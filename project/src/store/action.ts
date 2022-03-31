@@ -1,5 +1,6 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { axiosInstance, store } from '.';
+import { AxiosInstance } from 'axios';
+
 import { Offer } from '../components/app/app-props';
 
 export const Action = {
@@ -8,6 +9,7 @@ export const Action = {
   SORT_BY_CHANGE_ACTION: 'SORT_BY_CHANGE_ACTION',
 };
 
+const isAxiosInstance = (extra: unknown): extra is AxiosInstance => 'get' in (extra as Record<string, unknown>);
 
 export const cityChangeAction = createAction(Action.CITY_CHANGE, (value) => ({
   payload: value,
@@ -23,8 +25,12 @@ export const sortByChangeAction = createAction(Action.SORT_BY_CHANGE_ACTION, (va
 
 export const fetchData = createAsyncThunk(
   '/hotels',
-  async () => {
-    const { data } = await axiosInstance.get<Offer>('/hotels');
-    store.dispatch(offersListFillAction(data));
+  async (_, thunkApi) => {
+    const { extra, rejectWithValue } = thunkApi;
+    if (!isAxiosInstance(extra)) {
+      return rejectWithValue(new Error('we expect axios'));
+    }
+    const { data } = await extra.get<Offer[]>('/hotels');
+    return data;
   },
 );

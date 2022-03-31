@@ -8,9 +8,9 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       thunk: {
-        extraArgument: axiosInstance,
+        extraArgument: createAPI(),
       },
     }),
 });
 
-export const axiosInstance = createAPI();
+
