@@ -1,11 +1,13 @@
 import { useSelector } from 'react-redux';
 import { CITIES_LIST } from '../../constants';
 import { getCurrentCity } from '../../selectors/get-current-city';
+import { getLoadingState } from '../../selectors/get-loading-state';
 import { Props } from '../app/app-props';
 import CitiesList from '../cities/cities-list';
 import Map from '../map/map';
 import OffersList from '../offers/offers-list';
 import SortingTypes from '../sorting/sorting-types';
+import Spinner from '../spinner/spinner';
 import MainEmpty from './main-empty';
 
 type MainPageProps = Props & { setActive: (value: number | undefined) => void, active: number | undefined }
@@ -13,6 +15,7 @@ type MainPageProps = Props & { setActive: (value: number | undefined) => void, a
 function MainPage(props: MainPageProps): JSX.Element {
   const { offers, active, setActive } = props;
   const currentCity = useSelector(getCurrentCity);
+  const loading = useSelector(getLoadingState);
 
   return (
     <div className="page page--gray page--main">
@@ -52,7 +55,7 @@ function MainPage(props: MainPageProps): JSX.Element {
           </section>
         </div>
         <div className="cities">
-          {offers.length > 0 ?
+          {offers.length > 0 &&
             (
               <div className="cities__places-container container">
                 <section className="cities__places places">
@@ -80,8 +83,9 @@ function MainPage(props: MainPageProps): JSX.Element {
                   </section>
                 </div>
               </div>
-            )
-            : <MainEmpty />}
+            )}
+          {!loading && !offers.length && <MainEmpty />}
+          {loading && <Spinner />}
         </div>
       </main>
     </div>

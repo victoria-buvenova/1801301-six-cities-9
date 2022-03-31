@@ -1,7 +1,16 @@
-function spinner() {
+function Spinner() {
   return (
-    <div>...Loading</div>
+    <div style={{
+      margin: '0 auto',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      fontSize: '24px',
+    }}
+    >
+      ...Loading
+    </div>
   );
 }
 
-export default spinner;
+export default Spinner;

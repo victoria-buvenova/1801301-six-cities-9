@@ -6,7 +6,8 @@ export interface State {
   selectedCityName: string,
   offers: Offer[],
   sortBy: string,
-  reviews: Review[]
+  reviews: Review[],
+  loading: boolean
 }
 
 export const initialState: State = {
@@ -14,6 +15,7 @@ export const initialState: State = {
   offers: [],
   sortBy: 'Popular',
   reviews: [],
+  loading: false,
 };
 
 
@@ -27,5 +29,9 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(fetchData.fulfilled, (state, action) => {
       state.offers = action.payload;
+      state.loading = false;
+    })
+    .addCase(fetchData.pending, (state, action) => {
+      state.loading = true;
     });
 });
