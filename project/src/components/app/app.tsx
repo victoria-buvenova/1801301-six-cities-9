@@ -9,13 +9,17 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getSortedOffers } from '../../selectors/get-sorted-offers';
 import { getReviews } from '../../selectors/get-reviews';
+import { getRequireAuthorization } from '../../selectors/get-require-authorization';
 
 
 function App(): JSX.Element {
   const [active, setActive] = useState(undefined as number | undefined);
   const offers = useSelector(getSortedOffers);
   const reviews = useSelector(getReviews);
+  const authStatus = useSelector(getRequireAuthorization);
   return (
+    // eslint-disable-next-line no-console
+    console.log('status', authStatus),
     <BrowserRouter>
       <Routes>
         <Route index element={<MainPage offers={offers} setActive={setActive} active={active} />} />
