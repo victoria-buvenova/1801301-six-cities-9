@@ -14,3 +14,5 @@ export const SORT_TYPE_KEYS = {
 };
 
 export const CITIES_LIST = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
+
+export enum AUTHORIZATION_STATUS { AUTH, NO_AUTH, UNKNOWN }

@@ -1,13 +1,15 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { Offer, Review } from '../components/app/app-props';
-import { cityChangeAction, fetchData, sortByChangeAction } from './action';
+import { AUTHORIZATION_STATUS } from '../constants';
+import { cityChangeAction, fetchData, requireAuthorization, sortByChangeAction } from './action';
 
 export interface State {
   selectedCityName: string,
   offers: Offer[],
   sortBy: string,
   reviews: Review[],
-  loading: boolean
+  loading: boolean,
+  authorizationStatus: AUTHORIZATION_STATUS
 }
 
 export const initialState: State = {
@@ -16,6 +18,7 @@ export const initialState: State = {
   sortBy: 'Popular',
   reviews: [],
   loading: false,
+  authorizationStatus: AUTHORIZATION_STATUS.UNKNOWN,
 };
 
 
@@ -33,5 +36,8 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(fetchData.pending, (state, action) => {
       state.loading = true;
+    })
+    .addCase(requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
     });
 });
