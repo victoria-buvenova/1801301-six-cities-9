@@ -1,7 +1,8 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { Offer, Review } from '../components/app/app-props';
 import { AUTHORIZATION_STATUS } from '../constants';
-import { cityChangeAction, fetchData, requireAuthorization, sortByChangeAction } from './action';
+import { cityChangeAction, requireAuthorization, sortByChangeAction } from './action';
+import { fetchData } from './api-action';
 
 export interface State {
   selectedCityName: string,
