@@ -12,3 +12,5 @@ export const SORT_TYPE_KEYS = {
   PriceHighToLow: 'PriceHighToLow',
   TopRated: 'TopRated',
 };
+
+export const CITIES_LIST = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];

@@ -1,18 +1,21 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { Offer } from '../components/app/app-props';
-import { offers } from '../mocks/offers';
-import { cityChangeAction, offersListFillAction, sortByChangeAction } from './action';
+import { Offer, Review } from '../components/app/app-props';
+import { cityChangeAction, fetchData, sortByChangeAction } from './action';
 
 export interface State {
   selectedCityName: string,
   offers: Offer[],
-  sortBy: string
+  sortBy: string,
+  reviews: Review[],
+  loading: boolean
 }
 
 export const initialState: State = {
   selectedCityName: 'Paris',
-  offers: offers,
+  offers: [],
   sortBy: 'Popular',
+  reviews: [],
+  loading: false,
 };
 
 
@@ -21,10 +24,14 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(cityChangeAction, (state, action) => {
       state.selectedCityName = action.payload;
     })
-    .addCase(offersListFillAction, (state, action) => {
-      state.offers = action.payload;
-    })
     .addCase(sortByChangeAction, (state, action) => {
       state.sortBy = action.payload;
+    })
+    .addCase(fetchData.fulfilled, (state, action) => {
+      state.offers = action.payload;
+      state.loading = false;
+    })
+    .addCase(fetchData.pending, (state, action) => {
+      state.loading = true;
     });
 });

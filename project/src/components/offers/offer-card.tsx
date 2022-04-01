@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
-import { offers } from '../../mocks/offers';
+import { Offer } from '../app/app-props';
 
 type OfferCardProps = {
   id: number,
   cardClassName: string,
+  offers: Offer[],
   onActivate: () => void;
   onDeactivate: () => void;
 }
@@ -12,7 +13,7 @@ const formatPremium = (flag: boolean) => flag ? 'Premium' : '';
 const formatFavorite = (flag: boolean) => flag ? 'place-card__bookmark-button--active' : '';
 
 function OfferCard(props: OfferCardProps): JSX.Element {
-  const { id, onActivate, onDeactivate } = props;
+  const { id, onActivate, onDeactivate, offers } = props;
   const offer = offers.find((element) => element.id === id);
   if (typeof offer === 'undefined') {
     throw new Error();
