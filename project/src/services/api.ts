@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-import { AUTHORIZATION_STATUS } from '../constants';
+import { AUTHORIZATION_STATUS, HTTP_CODE } from '../constants';
 import { store } from '../store';
 import { requireAuthorization } from '../store/action';
 
@@ -14,7 +14,7 @@ export const createAPI = (): AxiosInstance => {
 
   api.interceptors.response.use(undefined,
     (err) => {
-      if (err.response.status === 401 || err.response.data.message === '401 Unauthorized') {
+      if (err.response.status === HTTP_CODE.UNAUTHORIZED || err.response.data.message === '401 Unauthorized') {
         store.dispatch(requireAuthorization(AUTHORIZATION_STATUS.NO_AUTH));
       }
       return Promise.reject(err);

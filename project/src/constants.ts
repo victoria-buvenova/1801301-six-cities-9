@@ -15,7 +15,11 @@ export const SORT_TYPE_KEYS = {
 
 export const CITIES_LIST = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 
-export enum AUTHORIZATION_STATUS { AUTH = 'AUTH', NO_AUTH = 'NO_AUTH', UNKNOWN = 'UNKNOWN' }
+export enum AUTHORIZATION_STATUS {
+  AUTH = 'AUTH',
+  NO_AUTH = 'NO_AUTH',
+  UNKNOWN = 'UNKNOWN'
+}
 
 export enum APIRoute {
   Login = '/login',

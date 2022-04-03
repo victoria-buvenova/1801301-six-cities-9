@@ -1,4 +1,10 @@
+import { useSelector } from 'react-redux';
+import { AUTHORIZATION_STATUS } from '../../constants';
+import { getRequireAuthorization } from '../../selectors/get-require-authorization';
+
 function Header() {
+  const authStatus = useSelector(getRequireAuthorization);
+  const hasAccess = authStatus === AUTHORIZATION_STATUS.AUTH;
   return (
     <header className="header">
       <div className="container">
@@ -10,18 +16,29 @@ function Header() {
           </div>
           <nav className="header__nav">
             <ul className="header__nav-list">
-              <li className="header__nav-item user">
-                <a className="header__nav-link header__nav-link--profile" href="#work-in-progress">
-                  <div className="header__avatar-wrapper user__avatar-wrapper">
-                  </div>
-                  <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                </a>
-              </li>
-              <li className="header__nav-item">
-                <a className="header__nav-link" href="#work-in-progress">
-                  <span className="header__signout">Sign out</span>
-                </a>
-              </li>
+              {hasAccess ? (
+                <>
+                  <li className="header__nav-item user">
+                    <a className="header__nav-link header__nav-link--profile" href="#work-in-progress">
+                      <div className="header__avatar-wrapper user__avatar-wrapper">
+                      </div>
+                      <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
+                    </a>
+                  </li>
+                  <li className="header__nav-item">
+                    <a className="header__nav-link" href="#work-in-progress">
+                      <span className="header__signout">Sign out</span>
+                    </a>
+                  </li>
+                </>
+              ) : (
+                <li className="header__nav-item">
+                  <a className="header__nav-link" href="/login">
+                    <span className="header__signout">Sign in</span>
+                  </a>
+                </li>
+              )}
+
             </ul>
           </nav>
         </div>
