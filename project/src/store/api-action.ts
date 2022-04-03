@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { api, store } from '.';
 import { Offer } from '../components/app/app-props';
-import { APIRoute, AUTHORIZATION_STATUS, HTTP_CODE } from '../constants';
+import { APIRoute, AUTHORIZATION_STATUS } from '../constants';
 import { requireAuthorization } from './action';
 
 
@@ -30,15 +30,7 @@ export const fetchData = createAsyncThunk(
 export const checkAuthAction = createAsyncThunk(
   '/login',
   async () => {
-    // eslint-disable-next-line no-console
-    console.log('hi');
     await api.get(APIRoute.Login);
-    api.interceptors.response.use((response) => {
-      if (response.status === HTTP_CODE.UNAUTHORIZED) {
-        store.dispatch(requireAuthorization(AUTHORIZATION_STATUS.NO_AUTH));
-      }
-      return response;
-    });
     store.dispatch(requireAuthorization(AUTHORIZATION_STATUS.AUTH));
   },
 );
