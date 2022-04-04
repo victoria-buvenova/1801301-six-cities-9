@@ -24,6 +24,8 @@ export enum AUTHORIZATION_STATUS {
 export enum APIRoute {
   Login = '/login',
   Logout = '/logout',
+  Favorites = '/favorites',
+  Main = '/'
 }
 
 export enum HTTP_CODE {

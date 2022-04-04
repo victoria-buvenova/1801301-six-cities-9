@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { APIRoute, AUTHORIZATION_STATUS } from '../constants';
+import { getRequireAuthorization } from '../selectors/get-require-authorization';
 import { authorizationCompleted } from '../store/action';
 
-const checkPassword = (name: string, password: string) => password === '12345' && name === 'ac@js.com';
+const checkPassword = (name: string, password: string) => password && name;
 
 const getNameAndPassword = (form: HTMLFormElement) => {
   const formData = new FormData(form);
@@ -22,16 +24,20 @@ function SignIn(): JSX.Element {
   const [errMessage, setErrMessage] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const authStatus = useSelector(getRequireAuthorization);
   const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     const { name, password } = getNameAndPassword(evt.currentTarget);
     if (checkPassword(name, password)) {
       dispatch(authorizationCompleted());
-      navigate('/favorites');
+      navigate(APIRoute.Favorites);
     } else {
       setErrMessage('error');
     }
   };
+  if (authStatus === AUTHORIZATION_STATUS.AUTH) {
+    return <Navigate to={APIRoute.Main} />;
+  }
   return (
     <div className="page page--gray page--login">
       <header className="header">
