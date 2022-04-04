@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { authorizationCompleted } from '../store/action';
 
 const checkPassword = (name: string, password: string) => password === '12345' && name === 'ac@js.com';
 
@@ -17,14 +20,14 @@ const getNameAndPassword = (form: HTMLFormElement) => {
 
 function SignIn(): JSX.Element {
   const [errMessage, setErrMessage] = useState('');
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    // eslint-disable-next-line no-console
-    console.log('hi');
     const { name, password } = getNameAndPassword(evt.currentTarget);
     if (checkPassword(name, password)) {
-      // eslint-disable-next-line no-console
-      console.log('abc');
+      dispatch(authorizationCompleted());
+      navigate('/favorites');
     } else {
       setErrMessage('error');
     }

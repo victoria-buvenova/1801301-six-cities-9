@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { getCurrentCity } from '../../selectors/get-current-city';
-import { cityChangeAction } from '../../store/action';
+import { cityChange } from '../../store/action';
 
 type CityProps = { cityName: string }
 
@@ -9,7 +9,7 @@ function City(props: CityProps) {
   const currentCityName = useSelector(getCurrentCity);
   const dispatch = useDispatch();
   const handleCityClick = (selectedCityName: string) => {
-    dispatch(cityChangeAction(selectedCityName));
+    dispatch(cityChange(selectedCityName));
   };
 
   return (

@@ -2,14 +2,14 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { SORT_TYPE } from '../../constants';
 import { getCurrentSortBy } from '../../selectors/get-current-sort-by';
-import { sortByChangeAction } from '../../store/action';
+import { sortByChange } from '../../store/action';
 
 function SortingTypes() {
   const currentSortBy = useSelector(getCurrentSortBy);
   const [sortingDropdown, setSortingDropdown] = React.useState(false);
   const dispatch = useDispatch();
   const handleSortingClick = (sortingType: string) => {
-    dispatch(sortByChangeAction(sortingType));
+    dispatch(sortByChange(sortingType));
   };
 
   return (

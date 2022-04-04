@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { Offer, Review } from '../components/app/app-props';
 import { AUTHORIZATION_STATUS } from '../constants';
-import { cityChangeAction, requireAuthorization, sortByChangeAction } from './action';
+import { authorizationCompleted, cityChange, requireAuthorization, sortByChange } from './action';
 import { fetchData } from './api-action';
 
 export interface State {
@@ -10,7 +10,7 @@ export interface State {
   sortBy: string,
   reviews: Review[],
   loading: boolean,
-  authorizationStatus: AUTHORIZATION_STATUS
+  authorizationStatus: AUTHORIZATION_STATUS,
 }
 
 export const initialState: State = {
@@ -25,10 +25,10 @@ export const initialState: State = {
 
 export const reducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(cityChangeAction, (state, action) => {
+    .addCase(cityChange, (state, action) => {
       state.selectedCityName = action.payload;
     })
-    .addCase(sortByChangeAction, (state, action) => {
+    .addCase(sortByChange, (state, action) => {
       state.sortBy = action.payload;
     })
     .addCase(fetchData.fulfilled, (state, action) => {
@@ -40,5 +40,8 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(requireAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;
+    })
+    .addCase(authorizationCompleted, (state, action) => {
+      state.authorizationStatus = AUTHORIZATION_STATUS.AUTH;
     });
 });
