@@ -18,14 +18,12 @@ function App(): JSX.Element {
   const reviews = useSelector(getReviews);
   const authStatus = useSelector(getRequireAuthorization);
   return (
-    // eslint-disable-next-line no-console
-    console.log('status', authStatus),
     <BrowserRouter>
       <Routes>
         <Route index element={<MainPage offers={offers} setActive={setActive} active={active} />} />
         <Route path='/login' element={<SignIn />} />
         <Route path='/favorites' element={
-          <PrivateRoute>
+          <PrivateRoute authStatus={authStatus}>
             <Favorites offers={offers.filter((offer) => offer.isFavorite === true)} />
           </PrivateRoute>
         }

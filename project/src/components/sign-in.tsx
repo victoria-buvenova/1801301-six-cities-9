@@ -1,4 +1,34 @@
+import React, { useState } from 'react';
+
+const checkPassword = (name: string, password: string) => password === '12345' && name === 'ac@js.com';
+
+const getNameAndPassword = (form: HTMLFormElement) => {
+  const formData = new FormData(form);
+  const name = formData.get('email');
+  const password = formData.get('password');
+  if (typeof name !== 'string') {
+    throw new Error('error');
+  }
+  if (typeof password !== 'string') {
+    throw new Error('wrong type of value for pass');
+  }
+  return { name, password };
+};
+
 function SignIn(): JSX.Element {
+  const [errMessage, setErrMessage] = useState('');
+  const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    // eslint-disable-next-line no-console
+    console.log('hi');
+    const { name, password } = getNameAndPassword(evt.currentTarget);
+    if (checkPassword(name, password)) {
+      // eslint-disable-next-line no-console
+      console.log('abc');
+    } else {
+      setErrMessage('error');
+    }
+  };
   return (
     <div className="page page--gray page--login">
       <header className="header">
@@ -17,7 +47,8 @@ function SignIn(): JSX.Element {
         <div className="page__login-container container">
           <section className="login">
             <h1 className="login__title">Sign in</h1>
-            <form className="login__form form" action="#" method="post">
+            {errMessage ? <p> {errMessage} </p> : null}
+            <form onSubmit={handleSubmit} className="login__form form" action="#" method="post">
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
                 <input className="login__input form__input" type="email" name="email" placeholder="Email" required />

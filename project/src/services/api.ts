@@ -15,7 +15,7 @@ export const createAPI = (): AxiosInstance => {
   api.interceptors.response.use(undefined,
     (err) => {
       if (err.response.status === HTTP_CODE.UNAUTHORIZED || err.response.data.message === '401 Unauthorized') {
-        store.dispatch(requireAuthorization(AUTHORIZATION_STATUS.NO_AUTH));
+        store.dispatch(requireAuthorization(AUTHORIZATION_STATUS.AUTH));
       }
       return Promise.reject(err);
     },
