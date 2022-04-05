@@ -33,3 +33,7 @@ export enum HTTP_CODE {
   UNAUTHORIZED = 401,
   NOT_FOUND = 404,
 }
+
+export const RATING_PRECISION = 1;
+export const PER_CENT = 100;
+export const HIGHEST_RATING = 5;

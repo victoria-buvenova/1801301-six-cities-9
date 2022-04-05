@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { AUTHORIZATION_STATUS } from '../../constants';
 import { getRequireAuthorization } from '../../selectors/get-require-authorization';
+import { computeRatingPercent, formatRating, formatBedrooms, formatAdults, formatPrice } from '../../utils';
 import { Offer, Review } from '../app/app-props';
 import CommentsForm from '../comments-form';
 import Header from '../header/header';
@@ -11,9 +12,6 @@ import ReviewsList from '../reviews/reviews-list';
 import { PropertyInside } from './property-inside';
 import { PropertyMark } from './property-mark';
 
-const RATING_PRECISION = 1;
-const PER_CENT = 100;
-const HIGHEST_RATING = 5;
 
 type RoomProps = {
   setActive: (value: number | undefined) => void,
@@ -22,11 +20,6 @@ type RoomProps = {
   reviews: Review[]
 }
 
-const formatRating = (rating: number) => rating.toFixed(RATING_PRECISION);
-const computeRatingPercent = (rating: number) => `${Math.round(rating * PER_CENT / HIGHEST_RATING)}%`;
-const formatBedrooms = (bedrooms: number) => bedrooms === 1 ? `${bedrooms} bedroom` : `${bedrooms} bedrooms`;
-const formatAdults = (maxAdults: number) => maxAdults === 1 ? `Max ${maxAdults} adult` : `Max ${maxAdults} adults`;
-const formatPrice = (price: number) => price.toFixed(0);
 
 function Room(props: RoomProps): JSX.Element {
   const { active, setActive, offers, reviews } = props;
