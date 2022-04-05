@@ -1,4 +1,7 @@
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { AUTHORIZATION_STATUS } from '../../constants';
+import { getRequireAuthorization } from '../../selectors/get-require-authorization';
 import { Offer, Review } from '../app/app-props';
 import CommentsForm from '../comments-form';
 import Header from '../header/header';
@@ -29,6 +32,8 @@ function Room(props: RoomProps): JSX.Element {
   const { active, setActive, offers, reviews } = props;
   const params = useParams();
   const currentId = params.id;
+  const authStatus = useSelector(getRequireAuthorization);
+  const hasAccess = authStatus === AUTHORIZATION_STATUS.AUTH;
   const offer = offers.find((element) => element.id === Number(currentId));
   if (typeof offer === 'undefined') {
     throw new Error();
@@ -123,7 +128,7 @@ function Room(props: RoomProps): JSX.Element {
               <section className="property__reviews reviews">
                 <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
                 <ReviewsList reviews={reviews} />
-                <CommentsForm />
+                {hasAccess && <CommentsForm />}
               </section>
             </div>
           </div>
