@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { APIRoute, AUTHORIZATION_STATUS } from '../constants';
 import { getRequireAuthorization } from '../selectors/get-require-authorization';
 import { authorizationCompleted } from '../store/action';
+import { loginAction } from '../store/api-action';
+import { Auth } from '../types/auth-types';
+import { isPasswordValid } from '../utils';
 
-const checkPassword = (name: string, password: string) => password && name;
+const checkPassword = (name: string, password: string) => isPasswordValid(password) && name;
 
 const getNameAndPassword = (form: HTMLFormElement) => {
   const formData = new FormData(form);
@@ -25,12 +28,19 @@ function SignIn(): JSX.Element {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const authStatus = useSelector(getRequireAuthorization);
+  const onSubmit = (authData: Auth) => {
+    dispatch(loginAction(authData));
+  };
   const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     const { name, password } = getNameAndPassword(evt.currentTarget);
     if (checkPassword(name, password)) {
       dispatch(authorizationCompleted());
-      navigate(APIRoute.Favorites);
+      onSubmit({
+        email: name,
+        password: password,
+      });
+      navigate(APIRoute.Main);
     } else {
       setErrMessage('error');
     }
@@ -44,9 +54,9 @@ function SignIn(): JSX.Element {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <a className="header__logo-link" href="main.html">
+              <Link className="header__logo-link" to={APIRoute.Main}>
                 <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
-              </a>
+              </Link>
             </div>
           </div>
         </div>

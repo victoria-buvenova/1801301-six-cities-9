@@ -1,10 +1,15 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { AUTHORIZATION_STATUS } from '../../constants';
+import { APIRoute, AUTHORIZATION_STATUS } from '../../constants';
+import { getCurrentUserName } from '../../selectors/get-current-user-name';
 import { getRequireAuthorization } from '../../selectors/get-require-authorization';
+import { logoutAction } from '../../store/api-action';
+
 
 function Header() {
+  const userName = useSelector(getCurrentUserName);
   const authStatus = useSelector(getRequireAuthorization);
+  const dispatch = useDispatch();
   const hasAccess = authStatus === AUTHORIZATION_STATUS.AUTH;
   return (
     <header className="header">
@@ -20,23 +25,23 @@ function Header() {
               {hasAccess ? (
                 <>
                   <li className="header__nav-item user">
-                    <Link className="header__nav-link header__nav-link--profile" to="/favorites">
+                    <Link className="header__nav-link header__nav-link--profile" to={APIRoute.Favorites}>
                       <div className="header__avatar-wrapper user__avatar-wrapper">
                       </div>
-                      <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
+                      <span className="header__user-name user__name">{userName}</span>
                     </Link>
                   </li>
                   <li className="header__nav-item">
-                    <a className="header__nav-link" href="#work-in-progress">
+                    <Link className="header__nav-link" onClick={() => dispatch(logoutAction())} to={APIRoute.Main}>
                       <span className="header__signout">Sign out</span>
-                    </a>
+                    </Link>
                   </li>
                 </>
               ) : (
                 <li className="header__nav-item">
-                  <a className="header__nav-link" href="/login">
+                  <Link className="header__nav-link" to={APIRoute.Login}>
                     <span className="header__signout">Sign in</span>
-                  </a>
+                  </Link>
                 </li>
               )}
 

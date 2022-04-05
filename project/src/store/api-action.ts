@@ -1,9 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
-import { api, store } from '.';
 import { Offer } from '../components/app/app-props';
 import { APIRoute, AUTHORIZATION_STATUS } from '../constants';
-import { requireAuthorization } from './action';
+import { dropToken, saveToken } from '../services/token';
+import { Auth, AuthUser } from '../types/auth-types';
 
 
 export const Action = {
@@ -28,9 +28,54 @@ export const fetchData = createAsyncThunk(
 );
 
 export const checkAuthAction = createAsyncThunk(
+  '/checkAuth',
+  async (_, thunkApi) => {
+    const { extra: api, rejectWithValue } = thunkApi;
+    if (!isAxiosInstance(api)) {
+      return rejectWithValue(new Error('we expect axios'));
+    }
+    try {
+      const { data: { token, avatarUrl, email, id, name, isPro } } = await api.get(APIRoute.Login);
+      saveToken(token);
+      return {
+        avatarUrl, email, id, name, isPro,
+      };
+    }
+    catch (error) {
+      return null;
+    }
+  },
+);
+
+export const loginAction = createAsyncThunk(
   '/login',
-  async () => {
-    await api.get(APIRoute.Login);
-    store.dispatch(requireAuthorization(AUTHORIZATION_STATUS.AUTH));
+  async ({ email: emailInput, password }: Auth, thunkApi) => {
+    const { extra: api, rejectWithValue } = thunkApi;
+    if (!isAxiosInstance(api)) {
+      return rejectWithValue(new Error('we expect axios'));
+    }
+    try {
+      const { data: { token, avatarUrl, email, id, name, isPro } } = await api.post<AuthUser>(APIRoute.Login, { email: emailInput, password });
+      saveToken(token);
+      return {
+        avatarUrl, email, id, name, isPro,
+      };
+    }
+    catch (error) {
+      return null;
+    }
+  },
+);
+
+export const logoutAction = createAsyncThunk(
+  '/logout',
+  async (_, thunkApi) => {
+    const { extra: api, rejectWithValue } = thunkApi;
+    if (!isAxiosInstance(api)) {
+      return rejectWithValue(new Error('we expect axios'));
+    }
+    await api.delete(APIRoute.Logout);
+    dropToken();
+    return AUTHORIZATION_STATUS.NO_AUTH;
   },
 );

@@ -13,3 +13,11 @@ export const getSortedOffersByType = (offers: Offer[], type: string): Offer[] =>
       return offers;
   }
 };
+
+export const hasWhiteSpace = (stringToCheck: string): boolean => stringToCheck.indexOf(' ') >= 0;
+
+export const hasAtLeastDigit = (value: string): boolean => /\d/.test(value);
+
+export const hasAtLeastLetter = (value: string): boolean => /[a-zA-Z]/.test(value);
+
+export const isPasswordValid = (password: string): boolean => hasAtLeastDigit(password) && hasAtLeastLetter(password) && !hasWhiteSpace(password);
