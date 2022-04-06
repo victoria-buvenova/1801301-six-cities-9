@@ -3,7 +3,7 @@ import { Offer, Review } from '../components/app/app-props';
 import { AUTHORIZATION_STATUS } from '../constants';
 import { User } from '../types/auth-types';
 import { authorizationCompleted, cityChange, requireAuthorization, sortByChange } from './action';
-import { checkAuthAction, fetchCurrentPropertyAction, fetchData, loginAction, logoutAction } from './api-action';
+import { checkAuthAction, fetchCurrentPropertyAction, fetchData, fetchNearByAction, loginAction, logoutAction } from './api-action';
 
 export interface State {
   selectedCityName: string,
@@ -13,7 +13,8 @@ export interface State {
   loading: boolean,
   authorizationStatus: AUTHORIZATION_STATUS,
   user: User | null,
-  currentProperty: Offer | null
+  currentProperty: Offer | null,
+  offersNearBy: Offer[]
 }
 
 export const initialState: State = {
@@ -25,6 +26,7 @@ export const initialState: State = {
   authorizationStatus: AUTHORIZATION_STATUS.UNKNOWN,
   user: null,
   currentProperty: null,
+  offersNearBy: [],
 };
 
 
@@ -70,6 +72,13 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(fetchCurrentPropertyAction.fulfilled, (state, action) => {
       state.currentProperty = action.payload;
+      state.loading = false;
+    })
+    .addCase(fetchNearByAction.pending, (state, action) => {
+      state.loading = true;
+    })
+    .addCase(fetchNearByAction.fulfilled, (state, action) => {
+      state.offersNearBy = action.payload;
       state.loading = false;
     });
 });

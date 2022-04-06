@@ -22,6 +22,8 @@ export const hasAtLeastLetter = (value: string): boolean => /[a-zA-Z]/.test(valu
 
 export const isPasswordValid = (password: string): boolean => hasAtLeastDigit(password) && hasAtLeastLetter(password) && !hasWhiteSpace(password);
 
+export const isEmailValid = (email: string): boolean => /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email.toLowerCase());
+
 export const formatRating = (rating: number) => rating.toFixed(RATING_PRECISION);
 export const computeRatingPercent = (rating: number) => `${Math.round(rating * PER_CENT / HIGHEST_RATING)}%`;
 export const formatBedrooms = (bedrooms: number) => bedrooms === 1 ? `${bedrooms} bedroom` : `${bedrooms} bedrooms`;

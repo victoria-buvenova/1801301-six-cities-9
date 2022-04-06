@@ -4,8 +4,9 @@ import { useParams } from 'react-router-dom';
 import { AUTHORIZATION_STATUS } from '../../constants';
 import { getCurrentProperty } from '../../selectors/get-current-property';
 import { getLoadingState } from '../../selectors/get-loading-state';
+import { getNearByOffers } from '../../selectors/get-nearby-offers';
 import { getRequireAuthorization } from '../../selectors/get-require-authorization';
-import { fetchCurrentPropertyAction } from '../../store/api-action';
+import { fetchCurrentPropertyAction, fetchNearByAction } from '../../store/api-action';
 import { computeRatingPercent, formatRating, formatBedrooms, formatAdults, formatPrice } from '../../utils';
 import { Offer, Review } from '../app/app-props';
 import CommentsForm from '../comments-form';
@@ -34,11 +35,13 @@ function Room(props: RoomProps): JSX.Element {
   const currentPropertyData = useSelector(getCurrentProperty);
   const loading = useSelector(getLoadingState);
   const authStatus = useSelector(getRequireAuthorization);
+  const offersNearBy = useSelector(getNearByOffers);
   const hasAccess = authStatus === AUTHORIZATION_STATUS.AUTH;
   const dispatch = useDispatch();
   useEffect(() => {
     if (currentId) {
       dispatch(fetchCurrentPropertyAction(currentId));
+      dispatch(fetchNearByAction(currentId));
     }
   }, [currentId, dispatch]);
 
@@ -147,7 +150,7 @@ function Room(props: RoomProps): JSX.Element {
               <OffersList
                 className='near-places__list'
                 cardClassName='near-places__card'
-                offers={offers}
+                offers={offersNearBy}
                 active={active}
                 setActive={setActive}
               />

@@ -4,7 +4,7 @@ import { Offer } from '../components/app/app-props';
 import { Routes, AUTHORIZATION_STATUS, HTTP_CODE, HTTP_CODE_MESSAGE } from '../constants';
 import { dropToken, saveToken } from '../services/token';
 import { Auth, AuthUser } from '../types/auth-types';
-import { fetchCurrentProperty, requireAuthorization } from './action';
+import { fetchCurrentProperty, fetchNearBy, requireAuthorization } from './action';
 
 
 export const Action = {
@@ -103,6 +103,23 @@ export const fetchCurrentPropertyAction = createAsyncThunk(
     try {
       const { data } = await api.get<Offer>(`${Routes.Hotels}/${offerId}`);
       fetchCurrentProperty(data);
+      return data;
+    } catch (error) {
+      return Promise.reject();
+    }
+  },
+);
+
+export const fetchNearByAction = createAsyncThunk(
+  'data/nearby',
+  async (offerId: string, thunkApi) => {
+    const { extra: api, rejectWithValue } = thunkApi;
+    if (!isAxiosInstance(api)) {
+      return rejectWithValue(new Error('we expect axios'));
+    }
+    try {
+      const { data } = await api.get<Offer[]>(`${Routes.Hotels}/${offerId}/nearby`);
+      fetchNearBy(data);
       return data;
     } catch (error) {
       return Promise.reject();

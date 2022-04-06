@@ -8,6 +8,7 @@ export const Action = {
   REQUIRE_AUTHORIZATION: 'REQUIRE_AUTHORIZATION',
   AUTHORIZATION_COMPLETED: 'AUTHORIZATION_COMPLETED',
   FETCH_CURRENT_PROPERTY: 'FETCH_CURRENT_PROPERTY',
+  FETCH_NEAR_BY: 'FETCH_NEAR_BY',
 };
 
 
@@ -32,6 +33,10 @@ export const authorizationCompleted = createAction(Action.AUTHORIZATION_COMPLETE
 }));
 
 export const fetchCurrentProperty = createAction(Action.FETCH_CURRENT_PROPERTY, (value) => ({
+  payload: value,
+}));
+
+export const fetchNearBy = createAction(Action.FETCH_NEAR_BY, (value) => ({
   payload: value,
 }));
 
