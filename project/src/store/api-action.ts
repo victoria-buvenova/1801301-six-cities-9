@@ -1,9 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { AxiosInstance } from 'axios';
+import request, { AxiosInstance } from 'axios';
 import { Offer } from '../components/app/app-props';
-import { APIRoute, AUTHORIZATION_STATUS } from '../constants';
+import { Routes, AUTHORIZATION_STATUS, HTTP_CODE, HTTP_CODE_MESSAGE } from '../constants';
 import { dropToken, saveToken } from '../services/token';
 import { Auth, AuthUser } from '../types/auth-types';
+import { requireAuthorization } from './action';
 
 
 export const Action = {
@@ -35,14 +36,24 @@ export const checkAuthAction = createAsyncThunk(
       return rejectWithValue(new Error('we expect axios'));
     }
     try {
-      const { data: { token, avatarUrl, email, id, name, isPro } } = await api.get(APIRoute.Login);
+      const { data: { token, avatarUrl, email, id, name, isPro } } = await api.get(Routes.Login);
       saveToken(token);
       return {
         avatarUrl, email, id, name, isPro,
       };
     }
     catch (error) {
-      return null;
+      if (!request.isAxiosError(error)) {
+        throw error;
+      }
+      if (error.response?.status === HTTP_CODE.UNAUTHORIZED ||
+        error.response?.data.message === HTTP_CODE_MESSAGE.UNAUTHORIZED ||
+        error.response?.status === HTTP_CODE.BAD_REQUEST ||
+        error.response?.data.message === HTTP_CODE_MESSAGE.BAD_REQUEST
+      ) {
+        requireAuthorization(AUTHORIZATION_STATUS.NO_AUTH);
+      }
+      return Promise.reject();
     }
   },
 );
@@ -55,14 +66,16 @@ export const loginAction = createAsyncThunk(
       return rejectWithValue(new Error('we expect axios'));
     }
     try {
-      const { data: { token, avatarUrl, email, id, name, isPro } } = await api.post<AuthUser>(APIRoute.Login, { email: emailInput, password });
+      const { data: { token, avatarUrl, email, id, name, isPro } } = await api.post<AuthUser>(Routes.Login, { email: emailInput, password });
       saveToken(token);
+      requireAuthorization(AUTHORIZATION_STATUS.AUTH);
       return {
         avatarUrl, email, id, name, isPro,
       };
     }
     catch (error) {
-      return null;
+      requireAuthorization(AUTHORIZATION_STATUS.NO_AUTH);
+      return Promise.reject();
     }
   },
 );
@@ -74,7 +87,7 @@ export const logoutAction = createAsyncThunk(
     if (!isAxiosInstance(api)) {
       return rejectWithValue(new Error('we expect axios'));
     }
-    await api.delete(APIRoute.Logout);
+    await api.delete(Routes.Logout);
     dropToken();
     return AUTHORIZATION_STATUS.NO_AUTH;
   },

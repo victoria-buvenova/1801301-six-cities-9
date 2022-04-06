@@ -58,5 +58,9 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(loginAction.fulfilled, (state, action) => {
       state.authorizationStatus = AUTHORIZATION_STATUS.AUTH;
       state.user = action.payload;
+    })
+    .addCase(loginAction.rejected, (state, action) => {
+      state.authorizationStatus = AUTHORIZATION_STATUS.NO_AUTH;
+      state.user = null;
     });
 });

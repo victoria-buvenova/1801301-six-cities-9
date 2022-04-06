@@ -21,11 +21,12 @@ export enum AUTHORIZATION_STATUS {
   UNKNOWN = 'UNKNOWN'
 }
 
-export enum APIRoute {
+export enum Routes {
   Login = '/login',
   Logout = '/logout',
   Favorites = '/favorites',
-  Main = '/'
+  Main = '/',
+  Hotels = '/hotels'
 }
 
 export enum HTTP_CODE {
@@ -33,6 +34,12 @@ export enum HTTP_CODE {
   UNAUTHORIZED = 401,
   NOT_FOUND = 404,
 }
+
+export enum HTTP_CODE_MESSAGE {
+  UNAUTHORIZED = '401 Unauthorized',
+  BAD_REQUEST = '400 Bad Request'
+}
+
 
 export const RATING_PRECISION = 1;
 export const PER_CENT = 100;

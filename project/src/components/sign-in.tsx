@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
-import { APIRoute, AUTHORIZATION_STATUS } from '../constants';
+import { Routes, AUTHORIZATION_STATUS } from '../constants';
 import { getRequireAuthorization } from '../selectors/get-require-authorization';
 import { authorizationCompleted } from '../store/action';
 import { loginAction } from '../store/api-action';
@@ -40,13 +40,13 @@ function SignIn(): JSX.Element {
         email: name,
         password: password,
       });
-      navigate(APIRoute.Main);
+      navigate(Routes.Main);
     } else {
       setErrMessage('error');
     }
   };
   if (authStatus === AUTHORIZATION_STATUS.AUTH) {
-    return <Navigate to={APIRoute.Main} />;
+    return <Navigate to={Routes.Main} />;
   }
   return (
     <div className="page page--gray page--login">
@@ -54,7 +54,7 @@ function SignIn(): JSX.Element {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <Link className="header__logo-link" to={APIRoute.Main}>
+              <Link className="header__logo-link" to={Routes.Main}>
                 <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
               </Link>
             </div>
