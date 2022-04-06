@@ -47,7 +47,7 @@ function Room(props: RoomProps): JSX.Element {
   }
 
   if (currentPropertyData) {
-    const { isPremium, title, rating, type, bedrooms, maxAdults, price, goods } = currentPropertyData;
+    const { isPremium, title, rating, type, bedrooms, maxAdults, price, goods, images } = currentPropertyData;
 
     return (
       <div className="page">
@@ -56,24 +56,11 @@ function Room(props: RoomProps): JSX.Element {
           <section className="property">
             <div className="property__gallery-container container">
               <div className="property__gallery">
-                <div className="property__image-wrapper">
-                  <img className="property__image" src="img/room.jpg" alt="Studio" />
-                </div>
-                <div className="property__image-wrapper">
-                  <img className="property__image" src="img/apartment-01.jpg" alt="Studio" />
-                </div>
-                <div className="property__image-wrapper">
-                  <img className="property__image" src="img/apartment-02.jpg" alt="Studio" />
-                </div>
-                <div className="property__image-wrapper">
-                  <img className="property__image" src="img/apartment-03.jpg" alt="Studio" />
-                </div>
-                <div className="property__image-wrapper">
-                  <img className="property__image" src="img/studio-01.jpg" alt="Studio" />
-                </div>
-                <div className="property__image-wrapper">
-                  <img className="property__image" src="img/apartment-01.jpg" alt="Studio" />
-                </div>
+                {images.map((imageUrl) => (
+                  <div key={imageUrl} className="property__image-wrapper">
+                    <img className="property__image" src={imageUrl} alt="Studio" />
+                  </div>
+                ))}
               </div>
             </div>
             <div className="property__container container">
