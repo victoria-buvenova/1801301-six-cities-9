@@ -3,7 +3,7 @@ import { Offer, Review } from '../components/app/app-props';
 import { AUTHORIZATION_STATUS } from '../constants';
 import { User } from '../types/auth-types';
 import { authorizationCompleted, cityChange, requireAuthorization, sortByChange } from './action';
-import { checkAuthAction, fetchData, loginAction, logoutAction } from './api-action';
+import { checkAuthAction, fetchCurrentPropertyAction, fetchData, loginAction, logoutAction } from './api-action';
 
 export interface State {
   selectedCityName: string,
@@ -12,7 +12,8 @@ export interface State {
   reviews: Review[],
   loading: boolean,
   authorizationStatus: AUTHORIZATION_STATUS,
-  user: User | null
+  user: User | null,
+  currentProperty: Offer | null
 }
 
 export const initialState: State = {
@@ -23,6 +24,7 @@ export const initialState: State = {
   loading: false,
   authorizationStatus: AUTHORIZATION_STATUS.UNKNOWN,
   user: null,
+  currentProperty: null,
 };
 
 
@@ -62,5 +64,12 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(loginAction.rejected, (state, action) => {
       state.authorizationStatus = AUTHORIZATION_STATUS.NO_AUTH;
       state.user = null;
+    })
+    .addCase(fetchCurrentPropertyAction.pending, (state, action) => {
+      state.loading = true;
+    })
+    .addCase(fetchCurrentPropertyAction.fulfilled, (state, action) => {
+      state.currentProperty = action.payload;
+      state.loading = false;
     });
 });

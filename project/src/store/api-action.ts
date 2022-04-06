@@ -4,7 +4,7 @@ import { Offer } from '../components/app/app-props';
 import { Routes, AUTHORIZATION_STATUS, HTTP_CODE, HTTP_CODE_MESSAGE } from '../constants';
 import { dropToken, saveToken } from '../services/token';
 import { Auth, AuthUser } from '../types/auth-types';
-import { requireAuthorization } from './action';
+import { fetchCurrentProperty, requireAuthorization } from './action';
 
 
 export const Action = {
@@ -90,5 +90,22 @@ export const logoutAction = createAsyncThunk(
     await api.delete(Routes.Logout);
     dropToken();
     return AUTHORIZATION_STATUS.NO_AUTH;
+  },
+);
+
+export const fetchCurrentPropertyAction = createAsyncThunk(
+  'data/hotels',
+  async (offerId: string, thunkApi) => {
+    const { extra: api, rejectWithValue } = thunkApi;
+    if (!isAxiosInstance(api)) {
+      return rejectWithValue(new Error('we expect axios'));
+    }
+    try {
+      const { data } = await api.get<Offer>(`${Routes.Hotels}/${offerId}`);
+      fetchCurrentProperty(data);
+      return data;
+    } catch (error) {
+      return Promise.reject();
+    }
   },
 );

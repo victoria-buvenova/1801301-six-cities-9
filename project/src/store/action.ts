@@ -7,6 +7,7 @@ export const Action = {
   SORT_BY_CHANGE: 'SORT_BY_CHANGE',
   REQUIRE_AUTHORIZATION: 'REQUIRE_AUTHORIZATION',
   AUTHORIZATION_COMPLETED: 'AUTHORIZATION_COMPLETED',
+  FETCH_CURRENT_PROPERTY: 'FETCH_CURRENT_PROPERTY',
 };
 
 
@@ -29,3 +30,8 @@ export const requireAuthorization = createAction(Action.REQUIRE_AUTHORIZATION, (
 export const authorizationCompleted = createAction(Action.AUTHORIZATION_COMPLETED, () => ({
   payload: undefined,
 }));
+
+export const fetchCurrentProperty = createAction(Action.FETCH_CURRENT_PROPERTY, (value) => ({
+  payload: value,
+}));
+
