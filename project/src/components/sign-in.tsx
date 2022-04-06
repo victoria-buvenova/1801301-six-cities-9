@@ -6,9 +6,9 @@ import { getRequireAuthorization } from '../selectors/get-require-authorization'
 import { authorizationCompleted } from '../store/action';
 import { loginAction } from '../store/api-action';
 import { Auth } from '../types/auth-types';
-import { isPasswordValid } from '../utils';
+import { isEmailValid, isPasswordValid } from '../utils';
 
-const checkPassword = (name: string, password: string) => isPasswordValid(password) && name;
+const checkPassword = (name: string, password: string) => isPasswordValid(password) && isEmailValid(name);
 
 const getNameAndPassword = (form: HTMLFormElement) => {
   const formData = new FormData(form);
@@ -24,7 +24,8 @@ const getNameAndPassword = (form: HTMLFormElement) => {
 };
 
 function SignIn(): JSX.Element {
-  const [errMessage, setErrMessage] = useState('');
+  const [passwordErrMsg, setPasswordErrMsg] = useState('');
+  const [emailErrMessage, setEmailErrMessage] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const authStatus = useSelector(getRequireAuthorization);
@@ -42,7 +43,12 @@ function SignIn(): JSX.Element {
       });
       navigate(Routes.Main);
     } else {
-      setErrMessage('error');
+      if (!isPasswordValid(password)) {
+        setPasswordErrMsg('Password must meet reqirements');
+      }
+      if (!isEmailValid(name)) {
+        setEmailErrMessage('Email is not valid');
+      }
     }
   };
   if (authStatus === AUTHORIZATION_STATUS.AUTH) {
@@ -66,7 +72,8 @@ function SignIn(): JSX.Element {
         <div className="page__login-container container">
           <section className="login">
             <h1 className="login__title">Sign in</h1>
-            {errMessage ? <p> {errMessage} </p> : null}
+            {passwordErrMsg ? <p style={{ color: 'red' }}> {passwordErrMsg} </p> : null}
+            {emailErrMessage ? <p style={{ color: 'red' }}> {emailErrMessage} </p> : null}
             <form onSubmit={handleSubmit} className="login__form form" action="#" method="post">
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
