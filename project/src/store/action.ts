@@ -9,6 +9,7 @@ export const Action = {
   AUTHORIZATION_COMPLETED: 'AUTHORIZATION_COMPLETED',
   FETCH_CURRENT_PROPERTY: 'FETCH_CURRENT_PROPERTY',
   FETCH_NEAR_BY: 'FETCH_NEAR_BY',
+  FETCH_REVIEWS: 'FETCH_REVIEWS',
 };
 
 
@@ -40,3 +41,6 @@ export const fetchNearBy = createAction(Action.FETCH_NEAR_BY, (value) => ({
   payload: value,
 }));
 
+export const fetchReviews = createAction(Action.FETCH_REVIEWS, (value) => ({
+  payload: value,
+}));

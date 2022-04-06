@@ -6,9 +6,10 @@ import { getCurrentProperty } from '../../selectors/get-current-property';
 import { getLoadingState } from '../../selectors/get-loading-state';
 import { getNearByOffers } from '../../selectors/get-nearby-offers';
 import { getRequireAuthorization } from '../../selectors/get-require-authorization';
-import { fetchCurrentPropertyAction, fetchNearByAction } from '../../store/api-action';
+import { getReviews } from '../../selectors/get-reviews';
+import { fetchCurrentPropertyAction, fetchNearByAction, fetchReviewsAction } from '../../store/api-action';
 import { computeRatingPercent, formatRating, formatBedrooms, formatAdults, formatPrice } from '../../utils';
-import { Offer, Review } from '../app/app-props';
+import { Offer } from '../app/app-props';
 import CommentsForm from '../comments-form';
 import Header from '../header/header';
 import Map from '../map/map';
@@ -24,24 +25,25 @@ type RoomProps = {
   setActive: (value: number | undefined) => void,
   active: number | undefined,
   offers: Offer[],
-  reviews: Review[]
 }
 
 
 function Room(props: RoomProps): JSX.Element {
-  const { active, setActive, offers, reviews } = props;
+  const { active, setActive, offers } = props;
   const params = useParams();
   const currentId = params.id;
   const currentPropertyData = useSelector(getCurrentProperty);
   const loading = useSelector(getLoadingState);
   const authStatus = useSelector(getRequireAuthorization);
   const offersNearBy = useSelector(getNearByOffers);
+  const reviews = useSelector(getReviews);
   const hasAccess = authStatus === AUTHORIZATION_STATUS.AUTH;
   const dispatch = useDispatch();
   useEffect(() => {
     if (currentId) {
       dispatch(fetchCurrentPropertyAction(currentId));
       dispatch(fetchNearByAction(currentId));
+      dispatch(fetchReviewsAction(currentId));
     }
   }, [currentId, dispatch]);
 
@@ -127,7 +129,7 @@ function Room(props: RoomProps): JSX.Element {
                 </div>
                 <section className="property__reviews reviews">
                   <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
-                  <ReviewsList reviews={reviews} />
+                  <ReviewsList reviews={reviews.slice(0, 10)} />
                   {hasAccess && <CommentsForm />}
                 </section>
               </div>

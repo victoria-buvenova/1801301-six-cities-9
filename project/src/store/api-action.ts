@@ -1,10 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import request, { AxiosInstance } from 'axios';
-import { Offer } from '../components/app/app-props';
+import { Offer, Review } from '../components/app/app-props';
 import { Routes, AUTHORIZATION_STATUS, HTTP_CODE, HTTP_CODE_MESSAGE } from '../constants';
 import { dropToken, saveToken } from '../services/token';
 import { Auth, AuthUser } from '../types/auth-types';
-import { fetchCurrentProperty, fetchNearBy, requireAuthorization } from './action';
+import { fetchCurrentProperty, fetchNearBy, fetchReviews, requireAuthorization } from './action';
 
 
 export const Action = {
@@ -120,6 +120,23 @@ export const fetchNearByAction = createAsyncThunk(
     try {
       const { data } = await api.get<Offer[]>(`${Routes.Hotels}/${offerId}/nearby`);
       fetchNearBy(data);
+      return data;
+    } catch (error) {
+      return Promise.reject();
+    }
+  },
+);
+
+export const fetchReviewsAction = createAsyncThunk(
+  'data/reviews',
+  async (offerId: string, thunkApi) => {
+    const { extra: api, rejectWithValue } = thunkApi;
+    if (!isAxiosInstance(api)) {
+      return rejectWithValue(new Error('we expect axios'));
+    }
+    try {
+      const { data } = await api.get<Review[]>(`${Routes.Comments}/${offerId}`);
+      fetchReviews(data);
       return data;
     } catch (error) {
       return Promise.reject();

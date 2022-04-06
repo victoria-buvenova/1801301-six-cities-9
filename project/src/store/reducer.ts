@@ -3,7 +3,7 @@ import { Offer, Review } from '../components/app/app-props';
 import { AUTHORIZATION_STATUS } from '../constants';
 import { User } from '../types/auth-types';
 import { authorizationCompleted, cityChange, requireAuthorization, sortByChange } from './action';
-import { checkAuthAction, fetchCurrentPropertyAction, fetchData, fetchNearByAction, loginAction, logoutAction } from './api-action';
+import { checkAuthAction, fetchCurrentPropertyAction, fetchData, fetchNearByAction, fetchReviewsAction, loginAction, logoutAction } from './api-action';
 
 export interface State {
   selectedCityName: string,
@@ -14,7 +14,7 @@ export interface State {
   authorizationStatus: AUTHORIZATION_STATUS,
   user: User | null,
   currentProperty: Offer | null,
-  offersNearBy: Offer[]
+  offersNearBy: Offer[],
 }
 
 export const initialState: State = {
@@ -79,6 +79,13 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(fetchNearByAction.fulfilled, (state, action) => {
       state.offersNearBy = action.payload;
+      state.loading = false;
+    })
+    .addCase(fetchReviewsAction.pending, (state, action) => {
+      state.loading = true;
+    })
+    .addCase(fetchReviewsAction.fulfilled, (state, action) => {
+      state.reviews = action.payload;
       state.loading = false;
     });
 });
