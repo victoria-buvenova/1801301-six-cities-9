@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { CITIES_LIST } from '../../constants';
+import { CITIES, CITIES_LIST } from '../../constants';
 import { getCurrentCity } from '../../selectors/get-current-city';
 import { getLoadingState } from '../../selectors/get-loading-state';
 import { Props } from '../app/app-props';
@@ -45,7 +45,7 @@ function MainPage(props: MainPageProps): JSX.Element {
                 </section>
                 <div className="cities__right-section">
                   <section className="cities__map map">
-                    < Map city={offers[0].city} points={offers.map((offer) => (
+                    <Map city={CITIES[currentCity]} points={offers.map((offer) => (
                       {
                         latitude: offer.location.latitude,
                         longitude: offer.location.longitude,

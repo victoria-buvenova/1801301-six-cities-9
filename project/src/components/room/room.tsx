@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { AUTHORIZATION_STATUS } from '../../constants';
+import { AUTHORIZATION_STATUS, CITIES } from '../../constants';
+import { getCurrentCity } from '../../selectors/get-current-city';
 import { getCurrentProperty } from '../../selectors/get-current-property';
 import { getLoadingState } from '../../selectors/get-loading-state';
 import { getNearByOffers } from '../../selectors/get-nearby-offers';
@@ -37,6 +38,7 @@ function Room(props: RoomProps): JSX.Element {
   const authStatus = useSelector(getRequireAuthorization);
   const offersNearBy = useSelector(getNearByOffers);
   const reviews = useSelector(getReviews);
+  const currentCity = useSelector(getCurrentCity);
   const hasAccess = authStatus === AUTHORIZATION_STATUS.AUTH;
   const dispatch = useDispatch();
   useEffect(() => {
@@ -135,7 +137,7 @@ function Room(props: RoomProps): JSX.Element {
               </div>
             </div>
             <section className="property__map map">
-              < Map city={offers[0].city} points={offers.map((offerNearby) => (
+              <Map city={CITIES[currentCity]} points={offers.map((offerNearby) => (
                 {
                   latitude: offerNearby.location.latitude,
                   longitude: offerNearby.location.longitude,

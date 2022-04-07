@@ -1,3 +1,5 @@
+import { CityType } from './types/app-types';
+
 export const SORT_TYPE: { [key: string]: string } = {
   Popular: 'Popular',
   PriceLowToHigh: 'Price: low to high',
@@ -45,3 +47,54 @@ export enum HTTP_CODE_MESSAGE {
 export const RATING_PRECISION = 1;
 export const PER_CENT = 100;
 export const HIGHEST_RATING = 5;
+
+export const CITIES: CityType = {
+  Paris: {
+    name: 'Paris',
+    location: {
+      latitude: 48.85661,
+      longitude: 2.351499,
+      zoom: 12,
+    },
+  },
+  Cologne: {
+    name: 'Cologne',
+    location: {
+      latitude: 50.938361,
+      longitude: 6.959974,
+      zoom: 12,
+    },
+  },
+  Brussels: {
+    name: 'Brussels',
+    location: {
+      latitude: 50.846557,
+      longitude: 4.351697,
+      zoom: 12,
+    },
+  },
+  Amsterdam: {
+    name: 'Amsterdam',
+    location: {
+      latitude: 52.37454,
+      longitude: 4.897976,
+      zoom: 12,
+    },
+  },
+  Hamburg: {
+    name: 'Hamburg',
+    location: {
+      latitude: 53.550341,
+      longitude: 10.000654,
+      zoom: 12,
+    },
+  },
+  Dusseldorf: {
+    name: 'Dusseldorf',
+    location: {
+      latitude: 51.225402,
+      longitude: 6.776314,
+      zoom: 12,
+    },
+  },
+};
