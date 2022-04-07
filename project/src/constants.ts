@@ -98,3 +98,10 @@ export const CITIES: CityType = {
     },
   },
 };
+
+export enum Response {
+  UNKNOWN,
+  SUCCESS,
+  PENDING,
+  ERROR
+}

@@ -1,9 +1,10 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { Offer, Review } from '../components/app/app-props';
-import { AUTHORIZATION_STATUS } from '../constants';
+import { AUTHORIZATION_STATUS, Response } from '../constants';
+import { ResponseType } from '../types/app-types';
 import { User } from '../types/auth-types';
 import { authorizationCompleted, cityChange, requireAuthorization, sortByChange } from './action';
-import { checkAuthAction, fetchCurrentPropertyAction, fetchData, fetchNearByAction, fetchReviewsAction, loginAction, logoutAction } from './api-action';
+import { addReviewAction, checkAuthAction, fetchCurrentPropertyAction, fetchData, fetchNearByAction, fetchReviewsAction, loginAction, logoutAction } from './api-action';
 
 export interface State {
   selectedCityName: string,
@@ -15,6 +16,7 @@ export interface State {
   user: User | null,
   currentProperty: Offer | null,
   offersNearBy: Offer[],
+  reviewPostStatus: ResponseType
 }
 
 export const initialState: State = {
@@ -27,6 +29,7 @@ export const initialState: State = {
   user: null,
   currentProperty: null,
   offersNearBy: [],
+  reviewPostStatus: Response.UNKNOWN,
 };
 
 
@@ -52,8 +55,9 @@ export const reducer = createReducer(initialState, (builder) => {
       state.authorizationStatus = AUTHORIZATION_STATUS.AUTH;
     })
     .addCase(checkAuthAction.fulfilled, (state, action) => {
-      state.authorizationStatus = AUTHORIZATION_STATUS.AUTH;
-      state.user = action.payload;
+      const { payload } = action;
+      state.authorizationStatus = payload ? AUTHORIZATION_STATUS.AUTH : AUTHORIZATION_STATUS.NO_AUTH;
+      state.user = payload;
     })
     .addCase(logoutAction.fulfilled, (state, action) => {
       state.authorizationStatus = AUTHORIZATION_STATUS.NO_AUTH;
@@ -87,5 +91,14 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(fetchReviewsAction.fulfilled, (state, action) => {
       state.reviews = action.payload;
       state.loading = false;
+    })
+    .addCase(addReviewAction.pending, (state, action) => {
+      state.reviewPostStatus = Response.PENDING;
+    })
+    .addCase(addReviewAction.rejected, (state, action) => {
+      state.reviewPostStatus = Response.ERROR;
+    })
+    .addCase(addReviewAction.fulfilled, (state, action) => {
+      state.reviewPostStatus = Response.SUCCESS;
     });
 });

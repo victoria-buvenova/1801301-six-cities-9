@@ -1,12 +1,13 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { AUTHORIZATION_STATUS, CITIES } from '../../constants';
+import { AUTHORIZATION_STATUS, CITIES, Response } from '../../constants';
 import { getCurrentCity } from '../../selectors/get-current-city';
 import { getCurrentProperty } from '../../selectors/get-current-property';
 import { getLoadingState } from '../../selectors/get-loading-state';
 import { getNearByOffers } from '../../selectors/get-nearby-offers';
 import { getRequireAuthorization } from '../../selectors/get-require-authorization';
+import { getReviewPostStatus } from '../../selectors/get-review-post-status';
 import { getReviews } from '../../selectors/get-reviews';
 import { fetchCurrentPropertyAction, fetchNearByAction, fetchReviewsAction } from '../../store/api-action';
 import { computeRatingPercent, formatRating, formatBedrooms, formatAdults, formatPrice } from '../../utils';
@@ -39,15 +40,19 @@ function Room(props: RoomProps): JSX.Element {
   const offersNearBy = useSelector(getNearByOffers);
   const reviews = useSelector(getReviews);
   const currentCity = useSelector(getCurrentCity);
+  const reviewStatus = useSelector(getReviewPostStatus);
   const hasAccess = authStatus === AUTHORIZATION_STATUS.AUTH;
   const dispatch = useDispatch();
   useEffect(() => {
+    if (currentId && reviewStatus === Response.SUCCESS) {
+      dispatch(fetchReviewsAction(currentId));
+    }
     if (currentId) {
       dispatch(fetchCurrentPropertyAction(currentId));
       dispatch(fetchNearByAction(currentId));
       dispatch(fetchReviewsAction(currentId));
     }
-  }, [currentId, dispatch]);
+  }, [currentId, reviewStatus, dispatch]);
 
   if (loading) {
     return <Spinner />;

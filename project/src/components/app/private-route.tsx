@@ -7,9 +7,17 @@ type PrivateRouteProps = {
   authStatus: AUTHORIZATION_STATUS
 };
 
-function PrivateRoute({ children, authStatus }: PrivateRouteProps): JSX.Element {
-  const hasAccess = authStatus === AUTHORIZATION_STATUS.AUTH;
-  return hasAccess ? children : <Navigate to='/login' />;
+const privateRouteSettings: Record<
+  AUTHORIZATION_STATUS,
+  (c: JSX.Element) => JSX.Element | null
+> = {
+  [AUTHORIZATION_STATUS.AUTH]: (children: JSX.Element) => children,
+  [AUTHORIZATION_STATUS.UNKNOWN]: () => null,
+  [AUTHORIZATION_STATUS.NO_AUTH]: () => <Navigate to="/login" />,
+};
+
+function PrivateRoute({ children, authStatus }: PrivateRouteProps): JSX.Element | null {
+  return privateRouteSettings[authStatus](children);
 }
 
 export default PrivateRoute;

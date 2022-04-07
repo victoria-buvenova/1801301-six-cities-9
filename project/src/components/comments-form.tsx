@@ -1,4 +1,9 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Response } from '../constants';
+import { getCurrentProperty } from '../selectors/get-current-property';
+import { getReviewPostStatus } from '../selectors/get-review-post-status';
+import { addReviewAction } from '../store/api-action';
 
 function CommentsForm() {
   const [formData, setFormData] = useState({
@@ -6,16 +11,31 @@ function CommentsForm() {
     review: '',
   });
 
+  const currentProperty = useSelector(getCurrentProperty);
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const { id } = currentProperty!;
+  const dispatch = useDispatch();
+  const status = useSelector(getReviewPostStatus);
+
   const fieldChangeHandle = (evt: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = evt.target;
     setFormData({ ...formData, [name]: value });
   };
 
+  const checkDisabled = (rating: string, review: string): boolean => !rating || (review.trim().length < 50 || review.trim().length > 300);
+
+  const { rating, review } = formData;
   return (
     <form className="reviews__form form" action="#" method="post"
       onSubmit={(evt: FormEvent<HTMLFormElement>) => {
         evt.preventDefault();
-        setFormData({ rating: formData.rating, review: formData.review });
+        dispatch(addReviewAction({ userReview: { rating: Number(rating), comment: review }, offerId: id }));
+        if (status === Response.SUCCESS) {
+          setFormData({
+            rating: '',
+            review: '',
+          });
+        }
       }}
     >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
@@ -55,12 +75,13 @@ function CommentsForm() {
           </svg>
         </label>
       </div>
-      <textarea onChange={fieldChangeHandle} className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved"></textarea>
+      <textarea disabled={status === Response.PENDING} minLength={50} maxLength={300} onChange={fieldChangeHandle} className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved"></textarea>
+      {status === Response.ERROR ? <p style={{ color: 'red' }}> Error, please try again </p> : null}
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" >Submit</button>
+        <button className="reviews__submit form__submit button" type="submit" disabled={checkDisabled(rating, review)}>Submit</button>
       </div>
     </form>
   );
