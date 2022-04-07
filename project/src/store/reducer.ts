@@ -48,8 +48,9 @@ export const reducer = createReducer(initialState, (builder) => {
       state.authorizationStatus = AUTHORIZATION_STATUS.AUTH;
     })
     .addCase(checkAuthAction.fulfilled, (state, action) => {
-      state.authorizationStatus = AUTHORIZATION_STATUS.AUTH;
-      state.user = action.payload;
+      const { payload } = action;
+      state.authorizationStatus = payload ? AUTHORIZATION_STATUS.AUTH : AUTHORIZATION_STATUS.NO_AUTH;
+      state.user = payload;
     })
     .addCase(logoutAction.fulfilled, (state, action) => {
       state.authorizationStatus = AUTHORIZATION_STATUS.NO_AUTH;
