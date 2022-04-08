@@ -1,13 +1,68 @@
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Routes, AUTHORIZATION_STATUS } from '../constants';
+import { getRequireAuthorization } from '../selectors/get-require-authorization';
+import { authorizationCompleted } from '../store/action';
+import { loginAction } from '../store/api-action';
+import { Auth } from '../types/auth-types';
+import { isEmailValid, isPasswordValid } from '../utils';
+
+const checkPassword = (name: string, password: string) => isPasswordValid(password) && isEmailValid(name);
+
+const getNameAndPassword = (form: HTMLFormElement) => {
+  const formData = new FormData(form);
+  const name = formData.get('email');
+  const password = formData.get('password');
+  if (typeof name !== 'string') {
+    throw new Error('error');
+  }
+  if (typeof password !== 'string') {
+    throw new Error('wrong type of value for pass');
+  }
+  return { name, password };
+};
+
 function SignIn(): JSX.Element {
+  const [passwordErrMsg, setPasswordErrMsg] = useState('');
+  const [emailErrMessage, setEmailErrMessage] = useState('');
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const authStatus = useSelector(getRequireAuthorization);
+  const onSubmit = (authData: Auth) => {
+    dispatch(loginAction(authData));
+  };
+  const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    const { name, password } = getNameAndPassword(evt.currentTarget);
+    if (checkPassword(name, password)) {
+      dispatch(authorizationCompleted());
+      onSubmit({
+        email: name,
+        password: password,
+      });
+      navigate(Routes.Main);
+    } else {
+      if (!isPasswordValid(password)) {
+        setPasswordErrMsg('Password must meet reqirements');
+      }
+      if (!isEmailValid(name)) {
+        setEmailErrMessage('Email is not valid');
+      }
+    }
+  };
+  if (authStatus === AUTHORIZATION_STATUS.AUTH) {
+    return <Navigate to={Routes.Main} />;
+  }
   return (
     <div className="page page--gray page--login">
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <a className="header__logo-link" href="main.html">
+              <Link className="header__logo-link" to={Routes.Main}>
                 <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -17,7 +72,9 @@ function SignIn(): JSX.Element {
         <div className="page__login-container container">
           <section className="login">
             <h1 className="login__title">Sign in</h1>
-            <form className="login__form form" action="#" method="post">
+            {passwordErrMsg ? <p style={{ color: 'red' }}> {passwordErrMsg} </p> : null}
+            {emailErrMessage ? <p style={{ color: 'red' }}> {emailErrMessage} </p> : null}
+            <form onSubmit={handleSubmit} className="login__form form" action="#" method="post">
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
                 <input className="login__input form__input" type="email" name="email" placeholder="Email" required />
