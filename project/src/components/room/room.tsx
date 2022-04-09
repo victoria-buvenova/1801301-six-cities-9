@@ -12,7 +12,7 @@ import { getReviews } from '../../selectors/get-reviews';
 import { fetchCurrentPropertyAction, fetchNearByAction, fetchReviewsAction } from '../../store/api-action';
 import { computeRatingPercent, formatRating, formatBedrooms, formatAdults, formatPrice } from '../../utils';
 import { Offer } from '../app/app-props';
-import CommentsForm from '../comments-form';
+import CommentsForm from '../comments-section/comments-form';
 import Header from '../header/header';
 import Map from '../map/map';
 import { NotFound } from '../not-found';
