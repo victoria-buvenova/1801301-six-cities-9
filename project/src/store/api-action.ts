@@ -1,11 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import request, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import { Offer, Review } from '../components/app/app-props';
-import { Routes, AUTHORIZATION_STATUS, HTTP_CODE, HTTP_CODE_MESSAGE } from '../constants';
+import { Routes, AUTHORIZATION_STATUS } from '../constants';
 import { dropToken, saveToken } from '../services/token';
 import { AddReview } from '../types/app-types';
 import { Auth, AuthUser } from '../types/auth-types';
-import { fetchCurrentProperty, fetchNearBy, fetchReviews, requireAuthorization } from './action';
+import { fetchCurrentProperty, fetchNearBy, fetchReviews } from './action';
 
 
 export const Action = {
@@ -44,17 +44,10 @@ export const checkAuthAction = createAsyncThunk(
       };
     }
     catch (error) {
-      if (!request.isAxiosError(error)) {
-        throw error;
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(error.response?.data);
       }
-      if (error.response?.status === HTTP_CODE.UNAUTHORIZED ||
-        error.response?.data.message === HTTP_CODE_MESSAGE.UNAUTHORIZED ||
-        error.response?.status === HTTP_CODE.BAD_REQUEST ||
-        error.response?.data.message === HTTP_CODE_MESSAGE.BAD_REQUEST
-      ) {
-        requireAuthorization(AUTHORIZATION_STATUS.NO_AUTH);
-      }
-      return Promise.reject();
+      return rejectWithValue(error);
     }
   },
 );
@@ -69,14 +62,15 @@ export const loginAction = createAsyncThunk(
     try {
       const { data: { token, avatarUrl, email, id, name, isPro } } = await api.post<AuthUser>(Routes.Login, { email: emailInput, password });
       saveToken(token);
-      requireAuthorization(AUTHORIZATION_STATUS.AUTH);
       return {
         avatarUrl, email, id, name, isPro,
       };
     }
     catch (error) {
-      requireAuthorization(AUTHORIZATION_STATUS.NO_AUTH);
-      return Promise.reject();
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(error.response?.data);
+      }
+      return rejectWithValue(error);
     }
   },
 );

@@ -11,13 +11,14 @@ const privateRouteSettings: Record<
   AUTHORIZATION_STATUS,
   (c: JSX.Element) => JSX.Element | null
 > = {
-  [AUTHORIZATION_STATUS.AUTH]: (children: JSX.Element) => children,
   [AUTHORIZATION_STATUS.UNKNOWN]: () => null,
+  [AUTHORIZATION_STATUS.AUTH]: (children: JSX.Element) => children,
   [AUTHORIZATION_STATUS.NO_AUTH]: () => <Navigate to="/login" />,
 };
 
 function PrivateRoute({ children, authStatus }: PrivateRouteProps): JSX.Element | null {
-  return privateRouteSettings[authStatus](children);
+  const createMarkup = privateRouteSettings[authStatus];
+  return createMarkup(children);
 }
 
 export default PrivateRoute;

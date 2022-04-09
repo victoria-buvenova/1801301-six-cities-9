@@ -16,7 +16,8 @@ export interface State {
   user: User | null,
   currentProperty: Offer | null,
   offersNearBy: Offer[],
-  reviewPostStatus: ResponseType
+  reviewPostStatus: ResponseType,
+  loginMessage: string | null
 }
 
 export const initialState: State = {
@@ -30,6 +31,7 @@ export const initialState: State = {
   currentProperty: null,
   offersNearBy: [],
   reviewPostStatus: Response.UNKNOWN,
+  loginMessage: null,
 };
 
 
@@ -57,7 +59,11 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(checkAuthAction.fulfilled, (state, action) => {
       const { payload } = action;
       state.authorizationStatus = payload ? AUTHORIZATION_STATUS.AUTH : AUTHORIZATION_STATUS.NO_AUTH;
-      state.user = payload;
+      state.user = payload ? payload : null;
+    })
+    .addCase(checkAuthAction.rejected, (state) => {
+      state.authorizationStatus = AUTHORIZATION_STATUS.NO_AUTH;
+      state.user = null;
     })
     .addCase(logoutAction.fulfilled, (state, action) => {
       state.authorizationStatus = AUTHORIZATION_STATUS.NO_AUTH;
@@ -70,6 +76,7 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(loginAction.rejected, (state, action) => {
       state.authorizationStatus = AUTHORIZATION_STATUS.NO_AUTH;
       state.user = null;
+      state.loginMessage = 'Login error';
     })
     .addCase(fetchCurrentPropertyAction.pending, (state, action) => {
       state.loading = true;
