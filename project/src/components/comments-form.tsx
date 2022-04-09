@@ -1,19 +1,20 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Response } from '../constants';
-import { getCurrentProperty } from '../selectors/get-current-property';
 import { getReviewPostStatus } from '../selectors/get-review-post-status';
 import { addReviewAction } from '../store/api-action';
 
-function CommentsForm() {
+type CommentsFormProps = {
+  currentId: string | undefined
+}
+
+function CommentsForm({ currentId }: CommentsFormProps) {
   const [formData, setFormData] = useState({
     rating: '',
     review: '',
   });
 
-  const currentProperty = useSelector(getCurrentProperty);
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const { id } = currentProperty!;
+
   const dispatch = useDispatch();
   const status = useSelector(getReviewPostStatus);
 
@@ -29,7 +30,7 @@ function CommentsForm() {
     <form className="reviews__form form" action="#" method="post"
       onSubmit={(evt: FormEvent<HTMLFormElement>) => {
         evt.preventDefault();
-        dispatch(addReviewAction({ userReview: { rating: Number(rating), comment: review }, offerId: id }));
+        dispatch(addReviewAction({ userReview: { rating: Number(rating), comment: review }, offerId: Number(currentId) }));
         if (status === Response.SUCCESS) {
           setFormData({
             rating: '',
