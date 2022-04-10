@@ -5,7 +5,7 @@ import { Routes, AUTHORIZATION_STATUS } from '../constants';
 import { dropToken, saveToken } from '../services/token';
 import { AddReview } from '../types/app-types';
 import { Auth, AuthUser } from '../types/auth-types';
-import { fetchCurrentProperty, fetchNearBy, fetchReviews } from './action';
+import { fetchCurrentProperty, fetchFavorites, fetchNearBy, fetchReviews } from './action';
 
 
 export const Action = {
@@ -151,6 +151,23 @@ export const addReviewAction = createAsyncThunk(
       fetchReviews(data);
     }
     catch (error) {
+      return Promise.reject();
+    }
+  },
+);
+
+export const fetchFavoritesAction = createAsyncThunk(
+  'data/favorites',
+  async (_, thunkApi) => {
+    const { extra: api, rejectWithValue } = thunkApi;
+    if (!isAxiosInstance(api)) {
+      return rejectWithValue(new Error('we expect axios'));
+    }
+    try {
+      const { data } = await api.get<Offer[]>(`${Routes.Favorite}`);
+      fetchFavorites(data);
+      return data;
+    } catch (error) {
       return Promise.reject();
     }
   },

@@ -4,7 +4,7 @@ import { AUTHORIZATION_STATUS, Response } from '../constants';
 import { ResponseType } from '../types/app-types';
 import { User } from '../types/auth-types';
 import { authorizationCompleted, cityChange, requireAuthorization, sortByChange } from './action';
-import { addReviewAction, checkAuthAction, fetchCurrentPropertyAction, fetchData, fetchNearByAction, fetchReviewsAction, loginAction, logoutAction } from './api-action';
+import { addReviewAction, checkAuthAction, fetchCurrentPropertyAction, fetchData, fetchFavoritesAction, fetchNearByAction, fetchReviewsAction, loginAction, logoutAction } from './api-action';
 
 export interface State {
   selectedCityName: string,
@@ -17,7 +17,8 @@ export interface State {
   currentProperty: Offer | null,
   offersNearBy: Offer[],
   reviewPostStatus: ResponseType,
-  loginMessage: string | null
+  loginMessage: string | null,
+  favorites: Offer[]
 }
 
 export const initialState: State = {
@@ -32,6 +33,7 @@ export const initialState: State = {
   offersNearBy: [],
   reviewPostStatus: Response.UNKNOWN,
   loginMessage: null,
+  favorites: [],
 };
 
 
@@ -107,5 +109,12 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(addReviewAction.fulfilled, (state, action) => {
       state.reviewPostStatus = Response.SUCCESS;
+    })
+    .addCase(fetchFavoritesAction.pending, (state, action) => {
+      state.loading = true;
+    })
+    .addCase(fetchFavoritesAction.fulfilled, (state, action) => {
+      state.favorites = action.payload;
+      state.loading = false;
     });
 });

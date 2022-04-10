@@ -29,7 +29,8 @@ export enum Routes {
   Favorites = '/favorites',
   Main = '/',
   Hotels = '/hotels',
-  Comments = '/comments'
+  Comments = '/comments',
+  Favorite = '/favorite'
 }
 
 export enum HTTP_CODE {

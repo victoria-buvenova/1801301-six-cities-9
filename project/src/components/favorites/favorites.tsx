@@ -1,5 +1,8 @@
+import { useSelector } from 'react-redux';
+import { getLoadingState } from '../../selectors/get-loading-state';
 import { Offer, Props } from '../app/app-props';
 import Header from '../header/header';
+import Spinner from '../spinner/spinner';
 import { FavoritesCity } from './favorites-city';
 
 
@@ -7,6 +10,7 @@ const getUniqueCities = (offers: Offer[]): string[] => [...new Set(offers.map((o
 function Favorites(props: Props): JSX.Element {
   const { offers } = props;
   const cities = getUniqueCities(offers);
+  const loading = useSelector(getLoadingState);
   return (
     <div className="page">
       <Header />
@@ -14,9 +18,12 @@ function Favorites(props: Props): JSX.Element {
         <div className="page__favorites-container container">
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
-            <ul className="favorites__list">
-              {cities.map((city) => <FavoritesCity key={city} name={city} offers={offers} />)}
-            </ul>
+            {cities.length > 0 ? (
+              <ul className="favorites__list">
+                {cities.map((city) => <FavoritesCity key={city} name={city} offers={offers} />)}
+              </ul>
+            ) : <p>Nothing yet saved</p>}
+            {loading && <Spinner />}
           </section>
         </div>
       </main>
