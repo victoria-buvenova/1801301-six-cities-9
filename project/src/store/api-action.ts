@@ -3,9 +3,9 @@ import axios, { AxiosInstance } from 'axios';
 import { Offer, Review } from '../components/app/app-props';
 import { Routes, AUTHORIZATION_STATUS } from '../constants';
 import { dropToken, saveToken } from '../services/token';
-import { AddReview } from '../types/app-types';
+import { AddReview, SetFavorite } from '../types/app-types';
 import { Auth, AuthUser } from '../types/auth-types';
-import { fetchCurrentProperty, fetchFavorites, fetchNearBy, fetchReviews } from './action';
+import { fetchCurrentProperty, fetchFavorites, fetchNearBy, fetchReviews, setFavorite } from './action';
 
 
 export const Action = {
@@ -172,3 +172,21 @@ export const fetchFavoritesAction = createAsyncThunk(
     }
   },
 );
+
+export const setFavoriteAction = createAsyncThunk(
+  'set/favorite',
+  async ({ offerId, status }: SetFavorite, thunkApi) => {
+    const { extra: api, rejectWithValue } = thunkApi;
+    if (!isAxiosInstance(api)) {
+      return rejectWithValue(new Error('we expect axios'));
+    }
+    try {
+      const { data } = await api.post<Offer>(`${Routes.Favorite}/${offerId}/${status}`);
+      setFavorite(data);
+    }
+    catch (error) {
+      return Promise.reject();
+    }
+  },
+);
+

@@ -1,5 +1,7 @@
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { getLoadingState } from '../../selectors/get-loading-state';
+import { fetchFavoritesAction } from '../../store/api-action';
 import { Offer, Props } from '../app/app-props';
 import Header from '../header/header';
 import Spinner from '../spinner/spinner';
@@ -11,6 +13,10 @@ function Favorites(props: Props): JSX.Element {
   const { offers } = props;
   const cities = getUniqueCities(offers);
   const loading = useSelector(getLoadingState);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchFavoritesAction);
+  }, [dispatch]);
   return (
     <div className="page">
       <Header />

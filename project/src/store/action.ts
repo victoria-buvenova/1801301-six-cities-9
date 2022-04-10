@@ -11,6 +11,7 @@ export const Action = {
   FETCH_NEAR_BY: 'FETCH_NEAR_BY',
   FETCH_REVIEWS: 'FETCH_REVIEWS',
   FETCH_FAVORITES: 'FETCH_FAVORITES',
+  SET_FAVORITE: 'SET_FAVORITE',
 };
 
 
@@ -47,5 +48,9 @@ export const fetchReviews = createAction(Action.FETCH_REVIEWS, (value) => ({
 }));
 
 export const fetchFavorites = createAction(Action.FETCH_FAVORITES, (value) => ({
+  payload: value,
+}));
+
+export const setFavorite = createAction(Action.SET_FAVORITE, (value) => ({
   payload: value,
 }));

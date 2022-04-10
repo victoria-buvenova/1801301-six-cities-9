@@ -16,3 +16,8 @@ export type AddReview = {
 };
 
 export type ResponseType = Response;
+
+export type SetFavorite = {
+  offerId: number,
+  status: number
+};
