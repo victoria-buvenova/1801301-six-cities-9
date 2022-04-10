@@ -12,7 +12,7 @@ import { getReviews } from '../../selectors/get-reviews';
 import { fetchCurrentPropertyAction, fetchNearByAction, fetchReviewsAction } from '../../store/api-action';
 import { computeRatingPercent, formatRating, formatBedrooms, formatAdults, formatPrice } from '../../utils';
 import { Offer } from '../app/app-props';
-import CommentsForm from '../comments-form';
+import CommentsForm from '../comments-section/comments-form';
 import Header from '../header/header';
 import Map from '../map/map';
 import { NotFound } from '../not-found';
@@ -137,7 +137,7 @@ function Room(props: RoomProps): JSX.Element {
                 <section className="property__reviews reviews">
                   <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
                   <ReviewsList reviews={reviews.slice(0, 10)} />
-                  {hasAccess && <CommentsForm />}
+                  {hasAccess && <CommentsForm currentId={currentId} />}
                 </section>
               </div>
             </div>

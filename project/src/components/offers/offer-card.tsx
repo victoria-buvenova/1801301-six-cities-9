@@ -1,4 +1,6 @@
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { setFavoriteAction } from '../../store/api-action';
 import { Offer } from '../app/app-props';
 
 type OfferCardProps = {
@@ -20,6 +22,8 @@ function OfferCard(props: OfferCardProps): JSX.Element {
   }
 
   const { isFavorite, isPremium, previewImage, price, rating, title, type } = offer;
+  const dispatch = useDispatch();
+  const onFavoriteChangeClick = () => dispatch(setFavoriteAction({ offerId: Number(offer.id), status: offer.isFavorite ? 0 : 1 }));
   return (
     <article className={`${props.cardClassName} place-card`} onMouseEnter={onActivate} onMouseLeave={onDeactivate}>
       {isPremium &&
@@ -37,7 +41,7 @@ function OfferCard(props: OfferCardProps): JSX.Element {
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={`place-card__bookmark-button button ${formatFavorite(isFavorite)}`} type="button">
+          <button onClick={onFavoriteChangeClick} className={`place-card__bookmark-button button ${formatFavorite(isFavorite)}`} type="button">
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>

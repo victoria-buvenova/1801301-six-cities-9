@@ -4,7 +4,7 @@ import { AUTHORIZATION_STATUS, Response } from '../constants';
 import { ResponseType } from '../types/app-types';
 import { User } from '../types/auth-types';
 import { authorizationCompleted, cityChange, requireAuthorization, sortByChange } from './action';
-import { addReviewAction, checkAuthAction, fetchCurrentPropertyAction, fetchData, fetchNearByAction, fetchReviewsAction, loginAction, logoutAction } from './api-action';
+import { addReviewAction, checkAuthAction, fetchCurrentPropertyAction, fetchData, fetchFavoritesAction, fetchNearByAction, fetchReviewsAction, loginAction, logoutAction } from './api-action';
 
 export interface State {
   selectedCityName: string,
@@ -16,7 +16,9 @@ export interface State {
   user: User | null,
   currentProperty: Offer | null,
   offersNearBy: Offer[],
-  reviewPostStatus: ResponseType
+  reviewPostStatus: ResponseType,
+  loginMessage: string | null,
+  favorites: Offer[]
 }
 
 export const initialState: State = {
@@ -30,6 +32,8 @@ export const initialState: State = {
   currentProperty: null,
   offersNearBy: [],
   reviewPostStatus: Response.UNKNOWN,
+  loginMessage: null,
+  favorites: [],
 };
 
 
@@ -57,7 +61,11 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(checkAuthAction.fulfilled, (state, action) => {
       const { payload } = action;
       state.authorizationStatus = payload ? AUTHORIZATION_STATUS.AUTH : AUTHORIZATION_STATUS.NO_AUTH;
-      state.user = payload;
+      state.user = payload ? payload : null;
+    })
+    .addCase(checkAuthAction.rejected, (state) => {
+      state.authorizationStatus = AUTHORIZATION_STATUS.NO_AUTH;
+      state.user = null;
     })
     .addCase(logoutAction.fulfilled, (state, action) => {
       state.authorizationStatus = AUTHORIZATION_STATUS.NO_AUTH;
@@ -70,6 +78,7 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(loginAction.rejected, (state, action) => {
       state.authorizationStatus = AUTHORIZATION_STATUS.NO_AUTH;
       state.user = null;
+      state.loginMessage = 'Login error';
     })
     .addCase(fetchCurrentPropertyAction.pending, (state, action) => {
       state.loading = true;
@@ -100,5 +109,12 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(addReviewAction.fulfilled, (state, action) => {
       state.reviewPostStatus = Response.SUCCESS;
+    })
+    .addCase(fetchFavoritesAction.pending, (state, action) => {
+      state.loading = true;
+    })
+    .addCase(fetchFavoritesAction.fulfilled, (state, action) => {
+      state.favorites = action.payload;
+      state.loading = false;
     });
 });

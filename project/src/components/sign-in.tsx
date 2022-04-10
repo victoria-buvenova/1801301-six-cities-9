@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { Routes, AUTHORIZATION_STATUS } from '../constants';
 import { getRequireAuthorization } from '../selectors/get-require-authorization';
-import { authorizationCompleted } from '../store/action';
 import { loginAction } from '../store/api-action';
-import { Auth } from '../types/auth-types';
+import { State } from '../store/reducer';
 import { isEmailValid, isPasswordValid } from '../utils';
 
 const checkPassword = (name: string, password: string) => isPasswordValid(password) && isEmailValid(name);
@@ -27,21 +26,14 @@ function SignIn(): JSX.Element {
   const [passwordErrMsg, setPasswordErrMsg] = useState('');
   const [emailErrMessage, setEmailErrMessage] = useState('');
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const loginMessage = useSelector((state: State) => state.loginMessage);
   const authStatus = useSelector(getRequireAuthorization);
-  const onSubmit = (authData: Auth) => {
-    dispatch(loginAction(authData));
-  };
+  useEffect(() => { setPasswordErrMsg(loginMessage || ''); }, [loginMessage]);
   const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     const { name, password } = getNameAndPassword(evt.currentTarget);
     if (checkPassword(name, password)) {
-      dispatch(authorizationCompleted());
-      onSubmit({
-        email: name,
-        password: password,
-      });
-      navigate(Routes.Main);
+      dispatch(loginAction({ email: name, password }));
     } else {
       if (!isPasswordValid(password)) {
         setPasswordErrMsg('Password must meet reqirements');

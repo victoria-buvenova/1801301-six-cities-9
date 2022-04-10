@@ -9,11 +9,13 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getSortedOffers } from '../../selectors/get-sorted-offers';
 import { getRequireAuthorization } from '../../selectors/get-require-authorization';
+import { getFavorites } from '../../selectors/get-favorites';
 
 
 function App(): JSX.Element {
   const [active, setActive] = useState(undefined as number | undefined);
   const offers = useSelector(getSortedOffers);
+  const favorites = useSelector(getFavorites);
   const authStatus = useSelector(getRequireAuthorization);
   return (
     <BrowserRouter>
@@ -22,7 +24,7 @@ function App(): JSX.Element {
         <Route path='/login' element={<SignIn />} />
         <Route path='/favorites' element={
           <PrivateRoute authStatus={authStatus}>
-            <Favorites offers={offers.filter((offer) => offer.isFavorite === true)} />
+            <Favorites offers={favorites} />
           </PrivateRoute>
         }
         />
