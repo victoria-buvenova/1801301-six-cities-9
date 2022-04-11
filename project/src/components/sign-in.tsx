@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Navigate } from 'react-router-dom';
-import { Routes, AUTHORIZATION_STATUS } from '../constants';
+import { Routes, AuthorizationStatus } from '../constants';
 import { getRequireAuthorization } from '../selectors/get-require-authorization';
 import { loginAction } from '../store/api-action';
 import { State } from '../store/reducer';
@@ -43,7 +43,7 @@ function SignIn(): JSX.Element {
       }
     }
   };
-  if (authStatus === AUTHORIZATION_STATUS.AUTH) {
+  if (authStatus === AuthorizationStatus.AUTH) {
     return <Navigate to={Routes.Main} />;
   }
   return (

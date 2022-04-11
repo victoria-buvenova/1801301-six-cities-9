@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { AUTHORIZATION_STATUS, CITIES, Response } from '../../constants';
+import { AuthorizationStatus, CITIES, Response } from '../../constants';
 import { getCurrentCity } from '../../selectors/get-current-city';
 import { getCurrentProperty } from '../../selectors/get-current-property';
 import { getLoadingState } from '../../selectors/get-loading-state';
@@ -41,7 +41,7 @@ function Room(props: RoomProps): JSX.Element {
   const reviews = useSelector(getReviews);
   const currentCity = useSelector(getCurrentCity);
   const reviewStatus = useSelector(getReviewPostStatus);
-  const hasAccess = authStatus === AUTHORIZATION_STATUS.AUTH;
+  const hasAccess = authStatus === AuthorizationStatus.AUTH;
   const dispatch = useDispatch();
   useEffect(() => {
     if (currentId && reviewStatus === Response.SUCCESS) {

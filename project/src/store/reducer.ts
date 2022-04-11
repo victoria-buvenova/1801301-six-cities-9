@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { Offer, Review } from '../components/app/app-props';
-import { AUTHORIZATION_STATUS, Response } from '../constants';
+import { AuthorizationStatus, Response } from '../constants';
 import { ResponseType } from '../types/app-types';
 import { User } from '../types/auth-types';
 import { authorizationCompleted, cityChange, requireAuthorization, sortByChange } from './action';
@@ -12,7 +12,7 @@ export interface State {
   sortBy: string,
   reviews: Review[],
   loading: boolean,
-  authorizationStatus: AUTHORIZATION_STATUS,
+  authorizationStatus: AuthorizationStatus,
   user: User | null,
   currentProperty: Offer | null,
   offersNearBy: Offer[],
@@ -27,7 +27,7 @@ export const initialState: State = {
   sortBy: 'Popular',
   reviews: [],
   loading: false,
-  authorizationStatus: AUTHORIZATION_STATUS.UNKNOWN,
+  authorizationStatus: AuthorizationStatus.UNKNOWN,
   user: null,
   currentProperty: null,
   offersNearBy: [],
@@ -56,27 +56,27 @@ export const reducer = createReducer(initialState, (builder) => {
       state.authorizationStatus = action.payload;
     })
     .addCase(authorizationCompleted, (state, action) => {
-      state.authorizationStatus = AUTHORIZATION_STATUS.AUTH;
+      state.authorizationStatus = AuthorizationStatus.AUTH;
     })
     .addCase(checkAuthAction.fulfilled, (state, action) => {
       const { payload } = action;
-      state.authorizationStatus = payload ? AUTHORIZATION_STATUS.AUTH : AUTHORIZATION_STATUS.NO_AUTH;
+      state.authorizationStatus = payload ? AuthorizationStatus.AUTH : AuthorizationStatus.NO_AUTH;
       state.user = payload ? payload : null;
     })
     .addCase(checkAuthAction.rejected, (state) => {
-      state.authorizationStatus = AUTHORIZATION_STATUS.NO_AUTH;
+      state.authorizationStatus = AuthorizationStatus.NO_AUTH;
       state.user = null;
     })
     .addCase(logoutAction.fulfilled, (state, action) => {
-      state.authorizationStatus = AUTHORIZATION_STATUS.NO_AUTH;
+      state.authorizationStatus = AuthorizationStatus.NO_AUTH;
       state.user = null;
     })
     .addCase(loginAction.fulfilled, (state, action) => {
-      state.authorizationStatus = AUTHORIZATION_STATUS.AUTH;
+      state.authorizationStatus = AuthorizationStatus.AUTH;
       state.user = action.payload;
     })
     .addCase(loginAction.rejected, (state, action) => {
-      state.authorizationStatus = AUTHORIZATION_STATUS.NO_AUTH;
+      state.authorizationStatus = AuthorizationStatus.NO_AUTH;
       state.user = null;
       state.loginMessage = 'Login error';
     })

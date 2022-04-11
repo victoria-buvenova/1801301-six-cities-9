@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Routes, AUTHORIZATION_STATUS } from '../../constants';
+import { Routes, AuthorizationStatus } from '../../constants';
 import { getCurrentUserName } from '../../selectors/get-current-user-name';
 import { getRequireAuthorization } from '../../selectors/get-require-authorization';
 import { logoutAction } from '../../store/api-action';
@@ -10,7 +10,7 @@ function Header() {
   const userName = useSelector(getCurrentUserName);
   const authStatus = useSelector(getRequireAuthorization);
   const dispatch = useDispatch();
-  const hasAccess = authStatus === AUTHORIZATION_STATUS.AUTH;
+  const hasAccess = authStatus === AuthorizationStatus.AUTH;
   return (
     <header className="header">
       <div className="container">

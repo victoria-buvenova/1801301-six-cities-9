@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios, { AxiosInstance } from 'axios';
 import { Offer, Review } from '../components/app/app-props';
-import { Routes, AUTHORIZATION_STATUS } from '../constants';
+import { Routes, AuthorizationStatus } from '../constants';
 import { dropToken, saveToken } from '../services/token';
 import { AddReview, SetFavorite } from '../types/app-types';
 import { Auth, AuthUser } from '../types/auth-types';
@@ -84,7 +84,7 @@ export const logoutAction = createAsyncThunk(
     }
     await api.delete(Routes.Logout);
     dropToken();
-    return AUTHORIZATION_STATUS.NO_AUTH;
+    return AuthorizationStatus.NO_AUTH;
   },
 );
 
