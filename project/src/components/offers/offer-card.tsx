@@ -6,7 +6,7 @@ import { Offer } from '../app/app-props';
 type OfferCardProps = {
   id: number,
   cardClassName: string,
-  offers: Offer[],
+  offer: Offer,
   onActivate?: () => void;
   onDeactivate?: () => void;
 }
@@ -15,11 +15,8 @@ const formatPremium = (flag: boolean) => flag ? 'Premium' : '';
 const formatFavorite = (flag: boolean) => flag ? 'place-card__bookmark-button--active' : '';
 
 function OfferCard(props: OfferCardProps): JSX.Element {
-  const { id, onActivate, onDeactivate, offers } = props;
-  const offer = offers.find((element) => element.id === id);
-  if (typeof offer === 'undefined') {
-    throw new Error();
-  }
+  const { id, onActivate, onDeactivate, offer } = props;
+
 
   const { isFavorite, isPremium, previewImage, price, rating, title, type } = offer;
   const dispatch = useDispatch();
