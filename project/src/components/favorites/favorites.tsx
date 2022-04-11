@@ -15,7 +15,7 @@ function Favorites(props: Props): JSX.Element {
   const loading = useSelector(getLoadingState);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchFavoritesAction);
+    dispatch(fetchFavoritesAction());
   }, [dispatch]);
   return (
     <div className="page">
