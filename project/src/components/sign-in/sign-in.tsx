@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Navigate } from 'react-router-dom';
-import { Routes, AUTHORIZATION_STATUS } from '../constants';
-import { getRequireAuthorization } from '../selectors/get-require-authorization';
-import { loginAction } from '../store/api-action';
-import { State } from '../store/reducer';
-import { isEmailValid, isPasswordValid } from '../utils';
+import { Routes, AuthorizationStatus } from '../../constants';
+import { getRequireAuthorization } from '../../selectors/get-require-authorization';
+import { loginAction } from '../../store/api-action';
+import { State } from '../../store/reducer';
+import { isEmailValid, isPasswordValid } from '../../utils';
 
 const checkPassword = (name: string, password: string) => isPasswordValid(password) && isEmailValid(name);
 
@@ -29,7 +29,7 @@ function SignIn(): JSX.Element {
   const loginMessage = useSelector((state: State) => state.loginMessage);
   const authStatus = useSelector(getRequireAuthorization);
   useEffect(() => { setPasswordErrMsg(loginMessage || ''); }, [loginMessage]);
-  const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
+  const submitHandle = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     const { name, password } = getNameAndPassword(evt.currentTarget);
     if (checkPassword(name, password)) {
@@ -43,7 +43,7 @@ function SignIn(): JSX.Element {
       }
     }
   };
-  if (authStatus === AUTHORIZATION_STATUS.AUTH) {
+  if (authStatus === AuthorizationStatus.AUTH) {
     return <Navigate to={Routes.Main} />;
   }
   return (
@@ -66,7 +66,7 @@ function SignIn(): JSX.Element {
             <h1 className="login__title">Sign in</h1>
             {passwordErrMsg ? <p style={{ color: 'red' }}> {passwordErrMsg} </p> : null}
             {emailErrMessage ? <p style={{ color: 'red' }}> {emailErrMessage} </p> : null}
-            <form onSubmit={handleSubmit} className="login__form form" action="#" method="post">
+            <form onSubmit={submitHandle} className="login__form form" action="#" method="post">
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
                 <input className="login__input form__input" type="email" name="email" placeholder="Email" required />
@@ -80,9 +80,9 @@ function SignIn(): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="#work-in-progress">
+              <Link className="locations__item-link" to={Routes.Main}>
                 <span>Amsterdam</span>
-              </a>
+              </Link>
             </div>
           </section>
         </div>

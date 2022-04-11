@@ -6,34 +6,31 @@ import { Offer } from '../app/app-props';
 type OfferCardProps = {
   id: number,
   cardClassName: string,
-  offers: Offer[],
-  onActivate: () => void;
-  onDeactivate: () => void;
+  offer: Offer,
+  onActivate?: () => void;
+  onDeactivate?: () => void;
 }
 
 const formatPremium = (flag: boolean) => flag ? 'Premium' : '';
 const formatFavorite = (flag: boolean) => flag ? 'place-card__bookmark-button--active' : '';
 
 function OfferCard(props: OfferCardProps): JSX.Element {
-  const { id, onActivate, onDeactivate, offers } = props;
-  const offer = offers.find((element) => element.id === id);
-  if (typeof offer === 'undefined') {
-    throw new Error();
-  }
+  const { id, onActivate, onDeactivate, offer } = props;
+
 
   const { isFavorite, isPremium, previewImage, price, rating, title, type } = offer;
   const dispatch = useDispatch();
   const onFavoriteChangeClick = () => dispatch(setFavoriteAction({ offerId: Number(offer.id), status: offer.isFavorite ? 0 : 1 }));
   return (
-    <article className={`${props.cardClassName} place-card`} onMouseEnter={onActivate} onMouseLeave={onDeactivate}>
+    <article className={`${props.cardClassName} place-card`} onMouseEnter={onActivate ?? undefined} onMouseLeave={onDeactivate ?? undefined}>
       {isPremium &&
         <div className="place-card__mark">
           <span>{formatPremium(isPremium)}</span>
         </div>}
       <div className={`${props.cardClassName}__image-wrapper place-card__image-wrapper`}>
-        <a href="#work-in-progress">
+        <Link to={`/offer/${id}`}>
           <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place" />
-        </a>
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">

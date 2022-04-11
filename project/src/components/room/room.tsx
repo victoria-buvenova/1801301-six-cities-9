@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { AUTHORIZATION_STATUS, CITIES, Response } from '../../constants';
+import { AuthorizationStatus, CITIES, Response } from '../../constants';
 import { getCurrentCity } from '../../selectors/get-current-city';
 import { getCurrentProperty } from '../../selectors/get-current-property';
 import { getLoadingState } from '../../selectors/get-loading-state';
@@ -12,26 +12,25 @@ import { getReviews } from '../../selectors/get-reviews';
 import { fetchCurrentPropertyAction, fetchNearByAction, fetchReviewsAction } from '../../store/api-action';
 import { computeRatingPercent, formatRating, formatBedrooms, formatAdults, formatPrice } from '../../utils';
 import { Offer } from '../app/app-props';
-import CommentsForm from '../comments-section/comments-form';
+import CommentsForm from '../comments-form/comments-form';
 import Header from '../header/header';
 import Map from '../map/map';
 import { NotFound } from '../not-found';
-import OffersList from '../offers/offers-list';
-import ReviewsList from '../reviews/reviews-list';
+import OffersList from '../offers/offers';
+import ReviewsList from '../reviews/reviews';
 import Spinner from '../spinner/spinner';
 import { PropertyInside } from './property-inside';
 import { PropertyMark } from './property-mark';
 
 
 type RoomProps = {
-  setActive: (value: number | undefined) => void,
   active: number | undefined,
   offers: Offer[],
 }
 
 
 function Room(props: RoomProps): JSX.Element {
-  const { active, setActive, offers } = props;
+  const { active, offers } = props;
   const params = useParams();
   const currentId = params.id;
   const currentPropertyData = useSelector(getCurrentProperty);
@@ -41,7 +40,7 @@ function Room(props: RoomProps): JSX.Element {
   const reviews = useSelector(getReviews);
   const currentCity = useSelector(getCurrentCity);
   const reviewStatus = useSelector(getReviewPostStatus);
-  const hasAccess = authStatus === AUTHORIZATION_STATUS.AUTH;
+  const hasAccess = authStatus === AuthorizationStatus.AUTH;
   const dispatch = useDispatch();
   useEffect(() => {
     if (currentId && reviewStatus === Response.SUCCESS) {
@@ -161,7 +160,6 @@ function Room(props: RoomProps): JSX.Element {
                 cardClassName='near-places__card'
                 offers={offersNearBy}
                 active={active}
-                setActive={setActive}
               />
             </section>
           </div>

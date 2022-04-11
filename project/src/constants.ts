@@ -17,7 +17,7 @@ export const SORT_TYPE_KEYS = {
 
 export const CITIES_LIST = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 
-export enum AUTHORIZATION_STATUS {
+export enum AuthorizationStatus {
   AUTH = 'AUTH',
   NO_AUTH = 'NO_AUTH',
   UNKNOWN = 'UNKNOWN'
@@ -33,13 +33,13 @@ export enum Routes {
   Favorite = '/favorite'
 }
 
-export enum HTTP_CODE {
+export enum HttpCode {
   BAD_REQUEST = 400,
   UNAUTHORIZED = 401,
   NOT_FOUND = 404,
 }
 
-export enum HTTP_CODE_MESSAGE {
+export enum HttpCodeMessage {
   UNAUTHORIZED = '401 Unauthorized',
   BAD_REQUEST = '400 Bad Request'
 }

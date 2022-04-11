@@ -1,7 +1,7 @@
 import { NotFound } from '../not-found';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import MainPage from '../main-page/main-page';
-import SignIn from '../sign-in';
+import SignIn from '../sign-in/sign-in';
 import Favorites from '../favorites/favorites';
 import Room from '../room/room';
 import PrivateRoute from './private-route';
@@ -28,7 +28,7 @@ function App(): JSX.Element {
           </PrivateRoute>
         }
         />
-        <Route path='/offer/:id' element={<Room offers={offers} setActive={setActive} active={active} />} />
+        <Route path='/offer/:id' element={<Room offers={offers} active={active} />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
     </BrowserRouter>

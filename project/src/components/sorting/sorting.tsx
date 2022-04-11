@@ -8,8 +8,9 @@ function SortingTypes() {
   const currentSortBy = useSelector(getCurrentSortBy);
   const [sortingDropdown, setSortingDropdown] = React.useState(false);
   const dispatch = useDispatch();
-  const handleSortingClick = (sortingType: string) => {
+  const sortingClickHandle = (sortingType: string) => {
     dispatch(sortByChange(sortingType));
+    setSortingDropdown((prevState) => !prevState);
   };
 
   return (
@@ -22,7 +23,7 @@ function SortingTypes() {
         </svg>
       </span>
       <ul className={`places__options places__options--custom ${sortingDropdown ? 'places__options--opened' : ''}`}>
-        {Object.entries(SORT_TYPE).map(([key, sortingType]) => <li onClick={() => handleSortingClick(key)} key={key} className={`places__option ${sortingType === currentSortBy ? 'places__option--active' : ''}`} tabIndex={0}>{sortingType}</li>)}
+        {Object.entries(SORT_TYPE).map(([key, sortingType]) => <li onClick={() => sortingClickHandle(key)} key={key} className={`places__option ${sortingType === currentSortBy ? 'places__option--active' : ''}`} tabIndex={0}>{sortingType}</li>)}
       </ul>
     </form>
   );
