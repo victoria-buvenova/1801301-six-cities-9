@@ -18,7 +18,7 @@ export const Action = {
 const isAxiosInstance = (extra: unknown): extra is AxiosInstance => 'get' in (extra as Record<string, unknown>);
 
 export const fetchData = createAsyncThunk(
-  '/hotels',
+  'hotels/allHotels',
   async (_, thunkApi) => {
     const { extra, rejectWithValue } = thunkApi;
     if (!isAxiosInstance(extra)) {
@@ -30,7 +30,7 @@ export const fetchData = createAsyncThunk(
 );
 
 export const checkAuthAction = createAsyncThunk(
-  '/checkAuth',
+  'user/checkAuth',
   async (_, thunkApi) => {
     const { extra: api, rejectWithValue } = thunkApi;
     if (!isAxiosInstance(api)) {
@@ -53,7 +53,7 @@ export const checkAuthAction = createAsyncThunk(
 );
 
 export const loginAction = createAsyncThunk(
-  '/login',
+  'user/login',
   async ({ email: emailInput, password }: Auth, thunkApi) => {
     const { extra: api, rejectWithValue } = thunkApi;
     if (!isAxiosInstance(api)) {
@@ -76,7 +76,7 @@ export const loginAction = createAsyncThunk(
 );
 
 export const logoutAction = createAsyncThunk(
-  '/logout',
+  'user/logout',
   async (_, thunkApi) => {
     const { extra: api, rejectWithValue } = thunkApi;
     if (!isAxiosInstance(api)) {
@@ -89,7 +89,7 @@ export const logoutAction = createAsyncThunk(
 );
 
 export const fetchCurrentPropertyAction = createAsyncThunk(
-  'data/hotels',
+  'hotels/current',
   async (offerId: string, thunkApi) => {
     const { extra: api, rejectWithValue } = thunkApi;
     if (!isAxiosInstance(api)) {
@@ -106,7 +106,7 @@ export const fetchCurrentPropertyAction = createAsyncThunk(
 );
 
 export const fetchNearByAction = createAsyncThunk(
-  'data/nearby',
+  'hotel/nearby',
   async (offerId: string, thunkApi) => {
     const { extra: api, rejectWithValue } = thunkApi;
     if (!isAxiosInstance(api)) {
@@ -123,7 +123,7 @@ export const fetchNearByAction = createAsyncThunk(
 );
 
 export const fetchReviewsAction = createAsyncThunk(
-  'data/reviews',
+  'hotel/reviews',
   async (offerId: string, thunkApi) => {
     const { extra: api, rejectWithValue } = thunkApi;
     if (!isAxiosInstance(api)) {
@@ -140,7 +140,7 @@ export const fetchReviewsAction = createAsyncThunk(
 );
 
 export const addReviewAction = createAsyncThunk(
-  'add/review',
+  'hotel/addReview',
   async ({ userReview, offerId }: AddReview, thunkApi) => {
     const { extra: api, rejectWithValue } = thunkApi;
     if (!isAxiosInstance(api)) {
@@ -160,7 +160,7 @@ export const addReviewAction = createAsyncThunk(
 );
 
 export const fetchFavoritesAction = createAsyncThunk(
-  'data/favorites',
+  'hotels/favorites',
   async (_, thunkApi) => {
     const { extra: api, rejectWithValue } = thunkApi;
     if (!isAxiosInstance(api)) {
@@ -177,7 +177,7 @@ export const fetchFavoritesAction = createAsyncThunk(
 );
 
 export const setFavoriteAction = createAsyncThunk(
-  'set/favorite',
+  'hotels/setFavorite',
   async ({ offerId, status }: SetFavorite, thunkApi) => {
     const { extra: api, rejectWithValue } = thunkApi;
     if (!isAxiosInstance(api)) {

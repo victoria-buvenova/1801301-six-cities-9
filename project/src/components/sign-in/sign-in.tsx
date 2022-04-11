@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, Navigate } from 'react-router-dom';
 import { Routes, AuthorizationStatus } from '../../constants';
 import { getRequireAuthorization } from '../../selectors/get-require-authorization';
+import { cityChange } from '../../store/action';
 import { loginAction } from '../../store/api-action';
 import { State } from '../../store/reducer';
 import { isEmailValid, isPasswordValid } from '../../utils';
@@ -28,6 +29,7 @@ function SignIn(): JSX.Element {
   const dispatch = useDispatch();
   const loginMessage = useSelector((state: State) => state.loginMessage);
   const authStatus = useSelector(getRequireAuthorization);
+  const cityClickHandle = () => dispatch(cityChange('Amsterdam'));
   useEffect(() => { setPasswordErrMsg(loginMessage || ''); }, [loginMessage]);
   const submitHandle = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -80,7 +82,7 @@ function SignIn(): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <Link className="locations__item-link" to={Routes.Main}>
+              <Link className="locations__item-link" to={Routes.Main} onClick={() => cityClickHandle()}>
                 <span>Amsterdam</span>
               </Link>
             </div>

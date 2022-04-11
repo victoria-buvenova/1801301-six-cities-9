@@ -11,7 +11,7 @@ interface FavoritesCityPlaceProps {
 export function FavoritesCityPlace(props: FavoritesCityPlaceProps) {
   const { offer } = props;
   const dispatch = useDispatch();
-  const onFavoriteChangeClick = (evt: MouseEvent<HTMLButtonElement>) => {
+  const onFavoriteChangeClickHandle = (evt: MouseEvent<HTMLButtonElement>) => {
     evt.preventDefault();
     dispatch(setFavoriteAction({ offerId: Number(offer.id), status: offer.isFavorite ? 0 : 1 }));
   };
@@ -21,9 +21,9 @@ export function FavoritesCityPlace(props: FavoritesCityPlaceProps) {
         <span>Premium</span>
       </div>
       <div className="favorites__image-wrapper place-card__image-wrapper">
-        <a href="#work-in-progress">
+        <Link to={`/offer/${offer.id}`}>
           <img className="place-card__image" src={offer.previewImage} width="150" height="110" alt="Place" />
-        </a>
+        </Link>
       </div>
       <div className="favorites__card-info place-card__info">
         <div className="place-card__price-wrapper">
@@ -31,7 +31,7 @@ export function FavoritesCityPlace(props: FavoritesCityPlaceProps) {
             <b className="place-card__price-value">&euro;{offer.price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button onClick={(evt) => onFavoriteChangeClick(evt)} className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
+          <button onClick={(evt) => onFavoriteChangeClickHandle(evt)} className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
@@ -49,7 +49,7 @@ export function FavoritesCityPlace(props: FavoritesCityPlaceProps) {
         </h2>
         <p className="place-card__type">{offer.type}</p>
       </div>
-    </article>
+    </article >
   );
 }
 

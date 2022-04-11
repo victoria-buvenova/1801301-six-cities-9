@@ -16,8 +16,9 @@ import CommentsForm from '../comments-form/comments-form';
 import Header from '../header/header';
 import Map from '../map/map';
 import { NotFound } from '../not-found';
-import OffersList from '../offers/offers';
-import ReviewsList from '../reviews/reviews';
+import OffersList from '../offers-list/offers-list';
+import ReviewsList from '../reviews-list/reviews-list';
+
 import Spinner from '../spinner/spinner';
 import { PropertyInside } from './property-inside';
 import { PropertyMark } from './property-mark';
@@ -26,11 +27,12 @@ import { PropertyMark } from './property-mark';
 type RoomProps = {
   active: number | undefined,
   offers: Offer[],
+  setActive: (active: number | undefined) => void,
 }
 
 
 function Room(props: RoomProps): JSX.Element {
-  const { active, offers } = props;
+  const { active, offers, setActive } = props;
   const params = useParams();
   const currentId = params.id;
   const currentPropertyData = useSelector(getCurrentProperty);
@@ -160,6 +162,7 @@ function Room(props: RoomProps): JSX.Element {
                 cardClassName='near-places__card'
                 offers={offersNearBy}
                 active={active}
+                setActive={setActive}
               />
             </section>
           </div>

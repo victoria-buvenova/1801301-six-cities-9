@@ -41,7 +41,7 @@ export type Props = {
 export type OffersListProps = {
   offers: Offer[];
   active: number | undefined;
-  setActive?: (active: number | undefined) => void;
+  setActive: (active: number | undefined) => void;
 };
 
 export type Review = {

@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import { getSortedOffers } from '../../selectors/get-sorted-offers';
 import { getRequireAuthorization } from '../../selectors/get-require-authorization';
 import { getFavorites } from '../../selectors/get-favorites';
+import { getNearByOffers } from '../../selectors/get-nearby-offers';
 
 
 function App(): JSX.Element {
@@ -17,6 +18,7 @@ function App(): JSX.Element {
   const offers = useSelector(getSortedOffers);
   const favorites = useSelector(getFavorites);
   const authStatus = useSelector(getRequireAuthorization);
+  const offersNearBy = useSelector(getNearByOffers);
   return (
     <BrowserRouter>
       <Routes>
@@ -28,7 +30,7 @@ function App(): JSX.Element {
           </PrivateRoute>
         }
         />
-        <Route path='/offer/:id' element={<Room offers={offers} active={active} />} />
+        <Route path='/offer/:id' element={<Room offers={offersNearBy} active={active} setActive={setActive} />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
     </BrowserRouter>

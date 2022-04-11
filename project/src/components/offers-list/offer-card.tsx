@@ -7,8 +7,8 @@ type OfferCardProps = {
   id: number,
   cardClassName: string,
   offer: Offer,
-  onActivate?: () => void;
-  onDeactivate?: () => void;
+  onActivate: () => void;
+  onDeactivate: () => void;
 }
 
 const formatPremium = (flag: boolean) => flag ? 'Premium' : '';
