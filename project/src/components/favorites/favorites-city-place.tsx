@@ -2,6 +2,7 @@ import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { setFavoriteAction } from '../../store/api-action';
 import { Offer } from '../app/app-props';
+import { MouseEvent } from 'react';
 
 interface FavoritesCityPlaceProps {
   offer: Offer
@@ -10,7 +11,10 @@ interface FavoritesCityPlaceProps {
 export function FavoritesCityPlace(props: FavoritesCityPlaceProps) {
   const { offer } = props;
   const dispatch = useDispatch();
-  const onFavoriteChangeClick = () => dispatch(setFavoriteAction({ offerId: Number(offer.id), status: offer.isFavorite ? 0 : 1 }));
+  const onFavoriteChangeClick = (evt: MouseEvent<HTMLButtonElement>) => {
+    evt.preventDefault();
+    dispatch(setFavoriteAction({ offerId: Number(offer.id), status: offer.isFavorite ? 0 : 1 }));
+  };
   return (
     <article className="favorites__card place-card">
       <div className="place-card__mark">
@@ -27,7 +31,7 @@ export function FavoritesCityPlace(props: FavoritesCityPlaceProps) {
             <b className="place-card__price-value">&euro;{offer.price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button onClick={onFavoriteChangeClick} className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
+          <button onClick={(evt) => onFavoriteChangeClick(evt)} className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>

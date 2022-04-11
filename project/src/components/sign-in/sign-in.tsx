@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Navigate } from 'react-router-dom';
-import { Routes, AuthorizationStatus } from '../constants';
-import { getRequireAuthorization } from '../selectors/get-require-authorization';
-import { loginAction } from '../store/api-action';
-import { State } from '../store/reducer';
-import { isEmailValid, isPasswordValid } from '../utils';
+import { Routes, AuthorizationStatus } from '../../constants';
+import { getRequireAuthorization } from '../../selectors/get-require-authorization';
+import { loginAction } from '../../store/api-action';
+import { State } from '../../store/reducer';
+import { isEmailValid, isPasswordValid } from '../../utils';
 
 const checkPassword = (name: string, password: string) => isPasswordValid(password) && isEmailValid(name);
 
@@ -80,9 +80,9 @@ function SignIn(): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="#work-in-progress">
+              <Link className="locations__item-link" to={Routes.Main}>
                 <span>Amsterdam</span>
-              </a>
+              </Link>
             </div>
           </section>
         </div>

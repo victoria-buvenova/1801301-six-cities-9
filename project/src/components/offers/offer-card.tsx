@@ -31,9 +31,9 @@ function OfferCard(props: OfferCardProps): JSX.Element {
           <span>{formatPremium(isPremium)}</span>
         </div>}
       <div className={`${props.cardClassName}__image-wrapper place-card__image-wrapper`}>
-        <a href="#work-in-progress">
+        <Link to={`/offer/${id}`}>
           <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place" />
-        </a>
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
