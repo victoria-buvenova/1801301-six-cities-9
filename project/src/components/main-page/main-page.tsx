@@ -3,11 +3,11 @@ import { CITIES, CITIES_LIST } from '../../constants';
 import { getCurrentCity } from '../../selectors/get-current-city';
 import { getLoadingState } from '../../selectors/get-loading-state';
 import { Props } from '../app/app-props';
-import CitiesList from '../cities/cities-list';
+import CitiesList from '../cities/cities';
 import Header from '../header/header';
 import Map from '../map/map';
-import OffersList from '../offers/offers-list';
-import SortingTypes from '../sorting/sorting-types';
+import OffersList from '../offers/offers';
+import SortingTypes from '../sorting/sorting';
 import Spinner from '../spinner/spinner';
 import MainEmpty from './main-empty';
 
