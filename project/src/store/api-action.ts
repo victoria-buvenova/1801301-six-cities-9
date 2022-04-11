@@ -151,7 +151,10 @@ export const addReviewAction = createAsyncThunk(
       fetchReviews(data);
     }
     catch (error) {
-      return Promise.reject();
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(error.response?.data);
+      }
+      return rejectWithValue(error);
     }
   },
 );

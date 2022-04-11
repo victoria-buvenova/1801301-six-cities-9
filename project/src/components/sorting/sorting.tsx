@@ -10,6 +10,7 @@ function SortingTypes() {
   const dispatch = useDispatch();
   const sortingClickHandle = (sortingType: string) => {
     dispatch(sortByChange(sortingType));
+    setSortingDropdown((prevState) => !prevState);
   };
 
   return (

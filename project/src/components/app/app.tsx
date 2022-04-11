@@ -28,7 +28,7 @@ function App(): JSX.Element {
           </PrivateRoute>
         }
         />
-        <Route path='/offer/:id' element={<Room offers={offers} setActive={setActive} active={active} />} />
+        <Route path='/offer/:id' element={<Room offers={offers} active={active} />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
     </BrowserRouter>

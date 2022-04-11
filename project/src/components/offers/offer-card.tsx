@@ -7,8 +7,8 @@ type OfferCardProps = {
   id: number,
   cardClassName: string,
   offers: Offer[],
-  onActivate: () => void;
-  onDeactivate: () => void;
+  onActivate?: () => void;
+  onDeactivate?: () => void;
 }
 
 const formatPremium = (flag: boolean) => flag ? 'Premium' : '';
@@ -25,7 +25,7 @@ function OfferCard(props: OfferCardProps): JSX.Element {
   const dispatch = useDispatch();
   const onFavoriteChangeClick = () => dispatch(setFavoriteAction({ offerId: Number(offer.id), status: offer.isFavorite ? 0 : 1 }));
   return (
-    <article className={`${props.cardClassName} place-card`} onMouseEnter={onActivate} onMouseLeave={onDeactivate}>
+    <article className={`${props.cardClassName} place-card`} onMouseEnter={onActivate ?? undefined} onMouseLeave={onDeactivate ?? undefined}>
       {isPremium &&
         <div className="place-card__mark">
           <span>{formatPremium(isPremium)}</span>

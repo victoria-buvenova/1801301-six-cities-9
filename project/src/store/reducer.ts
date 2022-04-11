@@ -18,7 +18,8 @@ export interface State {
   offersNearBy: Offer[],
   reviewPostStatus: ResponseType,
   loginMessage: string | null,
-  favorites: Offer[]
+  favorites: Offer[],
+  postReviewMsg: string | null
 }
 
 export const initialState: State = {
@@ -34,6 +35,7 @@ export const initialState: State = {
   reviewPostStatus: Response.UNKNOWN,
   loginMessage: null,
   favorites: [],
+  postReviewMsg: null,
 };
 
 
@@ -106,6 +108,7 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(addReviewAction.rejected, (state, action) => {
       state.reviewPostStatus = Response.ERROR;
+      state.postReviewMsg = 'Error while submitting review';
     })
     .addCase(addReviewAction.fulfilled, (state, action) => {
       state.reviewPostStatus = Response.SUCCESS;

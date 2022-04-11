@@ -1,8 +1,9 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FAVORITES_INPUT_DATA, Response } from '../../constants';
 import { getReviewPostStatus } from '../../selectors/get-review-post-status';
 import { addReviewAction } from '../../store/api-action';
+import { State } from '../../store/reducer';
 import StarRating from './star-rating';
 
 type CommentsFormProps = {
@@ -16,10 +17,12 @@ const EMPTY_STATE = {
 
 function CommentsForm({ currentId }: CommentsFormProps) {
   const [formData, setFormData] = useState(EMPTY_STATE);
-
-
+  const [errMsg, setErrMsg] = useState('');
   const dispatch = useDispatch();
+  const errorMessage = useSelector((state: State) => state.postReviewMsg);
   const status = useSelector(getReviewPostStatus);
+  useEffect(() => { setErrMsg(errorMessage || ''); }, [errorMessage]);
+
 
   const fieldChangeHandle = (evt: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = evt.target;
@@ -53,7 +56,7 @@ function CommentsForm({ currentId }: CommentsFormProps) {
         ))}
       </div>
       <textarea disabled={status === Response.PENDING} minLength={50} maxLength={300} onChange={fieldChangeHandle} className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved"></textarea>
-      {status === Response.ERROR ? <p style={{ color: 'red' }}> Error, please try again </p> : null}
+      {errMsg ? <p style={{ color: 'red' }}> {errMsg}</p> : null}
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.

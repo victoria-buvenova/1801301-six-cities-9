@@ -24,14 +24,13 @@ import { PropertyMark } from './property-mark';
 
 
 type RoomProps = {
-  setActive: (value: number | undefined) => void,
   active: number | undefined,
   offers: Offer[],
 }
 
 
 function Room(props: RoomProps): JSX.Element {
-  const { active, setActive, offers } = props;
+  const { active, offers } = props;
   const params = useParams();
   const currentId = params.id;
   const currentPropertyData = useSelector(getCurrentProperty);
@@ -161,7 +160,6 @@ function Room(props: RoomProps): JSX.Element {
                 cardClassName='near-places__card'
                 offers={offersNearBy}
                 active={active}
-                setActive={setActive}
               />
             </section>
           </div>
